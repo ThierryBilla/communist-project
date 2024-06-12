@@ -1,0 +1,38 @@
+/* Sidebar.module.css */
+
+.sidebar {
+    width: 350px;
+    height: 100vh; /* Assurer que la sidebar occupe toute la hauteur de la page */
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-right: 3px solid #7C2D29;
+    overflow: hidden; /* Empêche le défilement dans la sidebar elle-même */
+}
+
+.tabContainer {
+    display: flex;
+}
+
+.tab {
+    width: 50%; /* Chaque onglet occupe la moitié de la largeur du Sidebar */
+    padding: 15px 0; /* Ajuster le padding pour centrer verticalement */
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #ddd; /* Légère couleur de fond par défaut */
+    text-align: center; /* Centrer le texte horizontalement */
+    display: flex; /* Utiliser flexbox */
+    align-items: center; /* Centrer le contenu verticalement */
+    justify-content: center; /* Centrer le contenu horizontalement */
+}
+
+.tab:hover {
+    background-color: #ccc; /* Légère couleur de fond au survol */
+}
+
+.active {
+    background-color: #ccc;
+    font-weight: bold;
+}

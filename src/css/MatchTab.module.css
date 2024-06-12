@@ -1,0 +1,51 @@
+/* MatchTab.module.css */
+
+.tab {
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.matchList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.matchItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.matchItem:hover {
+    background-color: #eee;
+}
+
+.imagePlaceholder {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.matchDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.matchName {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.matchPreview {
+    color: #999;
+}

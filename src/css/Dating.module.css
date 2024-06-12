@@ -1,0 +1,28 @@
+/* Dating.module.css */
+
+.datingPage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* Empêche le défilement global de la page */
+}
+
+.datingContainer {
+    display: flex;
+    flex: 1; /* Prend tout l'espace disponible */
+    overflow: hidden; /* Empêche le défilement global à l'intérieur du conteneur */
+}
+
+.sidebar {
+    width: 350px; /* Ajuster la largeur à celle de la sidebar */
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mainContent {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto; /* Permet le défilement vertical uniquement pour le contenu principal */
+}

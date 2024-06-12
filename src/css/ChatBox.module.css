@@ -1,0 +1,86 @@
+/* ChatBox.module.css */
+
+.chatBox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.backButton {
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #7C2D29;
+    color: white;
+    border-radius: 4px;
+}
+
+.messageListContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Ajouter le défilement vertical */
+    background-color: #f9f9f9;
+}
+
+.messageList {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.messageLeft,
+.messageRight {
+    margin-bottom: 10px;
+    max-width: 70%;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.messageLeft {
+    background-color: #e1ffc7;
+    align-self: flex-start;
+}
+
+.messageRight {
+    background-color: #d1d1d1;
+    align-self: flex-end;
+}
+
+.inputContainerWrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 350px; /* Ajuster à la largeur de la sidebar */
+    background-color: #fff;
+    z-index: 1000; /* Assurer qu'il reste au-dessus des autres éléments */
+    box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
+    border-right: 3px solid #7C2D29;
+}
+
+.inputContainer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    width: 100%; /* Pleine largeur du conteneur wrapper */
+}
+
+.messageInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.sendButton {
+    padding: 10px 20px;
+    background-color: #7C2D29;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
