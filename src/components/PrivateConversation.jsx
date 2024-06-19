@@ -1,20 +1,24 @@
 import React from 'react';
 import styles from '../css/PrivateConversation.module.css';
 
-const PrivateConversation = ({ conversation, onBack }) => {
+const PrivateConversation = ({ message }) => {
+    // Données de test
+    const exampleMessage = {
+        userName: "John Doe",
+        content: "Hey there! How are you doing?",
+        timestamp: "2024-06-12T08:00:00Z" // Ajoutez une propriété timestamp si nécessaire
+    };
+
+    // Utilisez message s'il est défini, sinon utilisez les données de test
+    const displayedMessage = message || exampleMessage;
+
     return (
-        <div className={styles.conversationContainer}>
-            <div className={styles.header}>
-                <button onClick={onBack} className={styles.backButton}>Back</button>
-                <img src="placeholder.jpg" alt="Profile" className={styles.profilePicture} />
-                <span className={styles.userName}>{conversation.userName}</span>
-            </div>
-            <div className={styles.messagesContainer}>
-                {conversation.messages.map((message, index) => (
-                    <div key={index} className={`${styles.message} ${message.isSender ? styles.sent : styles.received}`}>
-                        <span className={styles.messageText}>{message.text}</span>
-                    </div>
-                ))}
+        <div className={styles.privateConversation}>
+            <h3 className={styles.header}>Conversation with {displayedMessage.userName}</h3>
+            <div className={styles.messages}>
+                <p>{displayedMessage.content}</p>
+                {/* Ajoutez l'heure du message si disponible */}
+                {displayedMessage.timestamp && <span className={styles.timestamp}>{displayedMessage.timestamp}</span>}
             </div>
         </div>
     );

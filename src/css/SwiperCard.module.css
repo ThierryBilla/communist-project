@@ -1,3 +1,5 @@
+/* SwiperCard.module.css */
+
 .container {
     display: flex;
     justify-content: center;
@@ -6,14 +8,35 @@
 }
 
 .card {
-    width: 600px;
-    height: 400px;
+    width: 850px;
+    height: 450px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     margin: 20px;
     display: flex;
     overflow: hidden;
+    transition: transform 0.3s ease; /* Transition générale pour le swipe */
+}
+
+.card.liked .infoContainer {
+    animation: none; /* Désactiver l'animation pour la carte suivante */
+}
+
+.card.liked {
+    animation: likedAnimation 0.3s ease; /* Animation spécifique pour le swipe vers la droite */
+}
+
+@keyframes likedAnimation {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(800px); /* Déplacement vers la droite */
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 .infoContainer {
@@ -26,7 +49,6 @@
 .scrollableInfo {
     max-height: 100%;
 }
-
 
 .imageContainer {
     width: 50%;

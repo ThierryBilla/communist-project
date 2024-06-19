@@ -8,15 +8,14 @@ const Signup = () => {
         password: '',
         email: '',
         nationality: '',
-        country: '',
+        countryOfResidence: '',
         city: '',
         age: '',
         language: '',
-        levelOfCommunism: 1,
+        communismLevel: '1', 
         politicalBelief: '',
-        shareSoulMate: 'yes',
-        showModal: false,
-        gender: '' // Ajout du champ pour le genre
+        partnerShare: false,
+        gender: ''
     });
 
     const grades = [
@@ -28,18 +27,48 @@ const Signup = () => {
     ];
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
+        const { name, value, type } = e.target;
+        const newValue = type === "range" ? parseInt(value) : value;
+        
+        let updatedData = {
             ...formData,
-            [name]: value,
+            [name]: newValue,
             showModal: value === "non communist"
-        });
+        };
+
+        // Ajouter une condition pour définir communismLevel sur "0" lorsque politicalBelief est "non communist"
+        if (name === "politicalBelief" && value === "non communist") {
+            updatedData = {
+                ...updatedData,
+                communismLevel: "0"
+            };
+        }
+
+        setFormData(updatedData);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+        try {
+            const { showModal, ...dataToSend } = formData;
+            console.log("Data being sent to server:", dataToSend);
+            const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
+            if (response.ok) {
+                // Redirect to login
+            } else {
+                // Error message
+            }
+        } catch (error) {
+            // Error management
+        }
     };
+    
 
     const handleCloseModal = () => {
         setFormData({
@@ -77,8 +106,8 @@ const Signup = () => {
                 </div>
                 <div className={styles.formGroup}>
                     <label>
-                        Country:
-                        <input type="text" name="country" value={formData.country} onChange={handleChange} required />
+                        Country of Residence:
+                        <input type="text" name="countryOfResidence" value={formData.countryOfResidence} onChange={handleChange} required />
                     </label>
                     <label>
                         City:
@@ -96,24 +125,23 @@ const Signup = () => {
                     </label>
                 </div>
                 <div className={styles.formGroup}>
-  
-    <label>
-        Gender:
-        <select name="gender" value={formData.gender} onChange={handleChange}>
-            <option value="" disabled>Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-        </select>
-    </label>
-    <label>
-        Do you want to share your (current or future) soul mate with other members?
-        <select name="shareSoulMate" value={formData.shareSoulMate} onChange={handleChange}>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-    </label>
-</div>
+                    <label>
+                        Gender:
+                        <select name="gender" value={formData.gender} onChange={handleChange}>
+                            <option value="" disabled>Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </label>
+                    <label>
+                        Do you want to share your (current or future) soul mate with other members?
+                        <select name="partnerShare" value={formData.partnerShare} onChange={handleChange}>
+                            <option value={true}>Yes</option>
+                            <option value={false}>No</option>
+                        </select>
+                    </label>
+                </div>
                 <div className={styles.formGroup}>
                     <label>
                         Political Belief:
@@ -139,12 +167,13 @@ const Signup = () => {
                     <div className={styles.formGroup}>
                         <label>
                             Level of Communism: 
-                            <span className={styles.levelDisplay} style={{ color: '#C0463F' }}>{grades[formData.levelOfCommunism - 1].grade}</span>
-                            <input type="range" name="levelOfCommunism" value={formData.levelOfCommunism} onChange={handleChange} min="1" max="5" />
+                            <span className={styles.levelDisplay} style={{ color: '#C0463F' }}>
+                                {grades[formData.communismLevel - 1]?.grade || ""}
+                            </span>
+                            <input type="range" name="communismLevel" value={parseInt(formData.communismLevel)} onChange={handleChange} min="0" max="5" />
                         </label>
                     </div>
                 )}
-
 
                 <button type="submit">Sign Up</button>
                 <p className={styles.loginPrompt}>Do you have an account? <a href="/Signin">Login</a></p>

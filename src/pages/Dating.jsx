@@ -8,13 +8,13 @@ const Dating = () => {
     return (
         <div className={styles.datingPage}>
             <Navbar />
-            <div className={styles.datingContainer}>
-                <SideBar />
-                <div className={styles.mainContent}>
-                    <SwiperCard />
-                </div>
+        <div className={styles.datingContainer}>
+            <SideBar />
+        <div className={styles.mainContent}>
+            <SwiperCard />
             </div>
-        </div>
+            </div>
+            </div>
     );
 };
 
