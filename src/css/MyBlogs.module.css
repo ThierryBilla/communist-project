@@ -1,0 +1,174 @@
+.container {
+    width: 100%; /* Utilise toute la largeur disponible */
+    margin: 0 auto;
+  }
+  
+  .heading {
+    text-align: left;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .blogList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .blogItem {
+    background: #7C2D29;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  .blogItem:hover {
+    transform: translateY(-2px);
+  }
+  
+  .blogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-radius 0.3s;
+    border-radius: 10px; /* Garder les coins arrondis */
+  }
+  
+  .blogHeader:hover {
+    background-color: #69231f;
+  }
+  
+  .blogTitle {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .blogActions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .icon {
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s;
+  }
+  
+  .icon:hover {
+    color: yellow;
+  }
+  
+  .blogContent {
+    padding: 20px;
+    font-size: 1em;
+    color: #333; /* Changement de couleur pour une meilleure lisibilité */
+    background-color: #f0f0f0; /* Fond gris clair */
+    line-height: 1.6;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .floatingButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #7C2D29;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 24px;
+    transition: background-color 0.3s;
+  }
+  
+  .floatingButton:hover {
+    background-color: #69231f;
+  }
+  
+  .formBubble {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 400px; /* Augmentation de la largeur */
+    opacity: 0;
+    transform: scale(0);
+    animation: growBubble 0.3s forwards;
+  }
+  
+  @keyframes growBubble {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .input, .textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ajout de box-sizing pour inclure le padding et la bordure */
+  }
+  
+  .textarea {
+    height: 100px;
+    resize: none;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Ajout d'espace entre les boutons */
+  }
+  
+  .formActions .submitButton,
+  .formActions .cancelButton {
+    padding: 10px 20px; /* Ajustement des padding pour être uniformes */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box; /* Ajout de box-sizing pour inclure le padding et la bordure */
+    font-size: 1em; /* Uniformisation de la taille de la police */
+    line-height: normal; /* S'assurer que la hauteur de ligne n'affecte pas la hauteur du bouton */
+    height: 40px; /* Définir une hauteur fixe pour les boutons */
+    margin: 0; /* Supprimer toute marge par défaut */
+    display: flex; /* Alignement interne des éléments */
+    align-items: center; /* Alignement vertical au centre */
+    justify-content: center; /* Alignement horizontal au centre */
+    flex: 1;
+  }
+  
+  .submitButton {
+    background-color: #7C2D29;
+    color: white;
+  }
+  
+  .submitButton:hover {
+    background-color: #69231f;
+  }
+  
+  .cancelButton {
+    background-color: #ccc;
+  }
+  
+  .cancelButton:hover {
+    background-color: #aaa;
+  }
+  

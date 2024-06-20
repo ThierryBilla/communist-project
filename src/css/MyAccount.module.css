@@ -1,11 +1,24 @@
 .myAccountPage {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .accountContainer {
-    display: flex;
-    flex: 1;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.accountContainer {
+  display: flex;
+  flex: 1;
+}
+
+.profileMenu {
+  width: 250px; /* Définir une largeur fixe pour le menu */
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.profileContent {
+  flex: 1; /* Utiliser tout l'espace disponible */
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #ffffff; /* Ajouter un arrière-plan pour le contraste */
+}

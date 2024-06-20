@@ -7,8 +7,15 @@ const ChatTab = ({ messages, onMessageClick }) => {
 
     // Données factices pour les messages
     const dummyMessages = [
-        { id: 1, text: 'Message 1', sender: 'John Doe', preview: 'Lorem ipsum dolor sit amet...', fullMessages: ['Hi', 'How are you?', 'I am good'] },
+        { id: 68, text: 'Message 1', sender: 'John Doe', preview: 'Lorem ipsum dolor sit amet...', fullMessages: ['Hi', 'How are you?', 'I am good', 'Hi', 'How are you?', 'I am good', 'I am good', 'I am good', 'I am hey', 'I am bad', 'I am very bad'] },
         { id: 2, text: 'Message 2', sender: 'Jane Smith', preview: 'Sed do eiusmod tempor...', fullMessages: ['Hello', 'Whats up?', 'Nothing much'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
+        { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
         { id: 3, text: 'Message 3', sender: 'Alice Johnson', preview: 'Ut enim ad minim veniam...', fullMessages: ['Hey', 'Are you there?', 'Yes'] },
     ];
 

@@ -1,7 +1,10 @@
 /* ChatTab.module.css */
 
 .tab {
-    width: 100%; /* Largeur de l'onglet */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ensure the tab occupies the full height of the window */
+    width: 100%; /* Full width of the tab */
     background-color: #f2f2f2;
     padding: 20px;
 }
@@ -10,6 +13,8 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
+    flex: 1; /* Ensure the message list occupies all available space */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .messageItem {

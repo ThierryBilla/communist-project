@@ -1,3 +1,5 @@
+//AuthContext.jsx
+
 import { createContext, useState, useContext, useEffect } from 'react';
 
 export const AuthContext = createContext();
@@ -5,6 +7,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('authToken') || null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadUserFromToken = async () => {
@@ -20,7 +23,6 @@ export const AuthProvider = ({ children }) => {
           if (response.ok) {
             const userData = await response.json();
             setUser(userData);
-            console.log(userData);
           } else {
             setUser(null);
             setToken(null);
@@ -28,8 +30,12 @@ export const AuthProvider = ({ children }) => {
           }
         } catch (error) {
           console.error('Error loading user from token:', error);
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem('authToken');
         }
       }
+      setLoading(false);
     };
 
     loadUserFromToken();
@@ -48,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

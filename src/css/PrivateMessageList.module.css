@@ -1,81 +1,70 @@
-/* PrivateMessageList.module.css */
-
 .privateMessageList {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 10px;
-    
 }
 
 .header {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-.messages {
+.backButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.messageList {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    
 }
 
-.message {
+.messageItem {
     display: flex;
     align-items: center;
     padding: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
 }
 
-.message:hover {
+.messageItem:hover {
     background-color: #eee;
 }
 
-.profilePicture {
+.imagePlaceholder {
     width: 50px;
     height: 50px;
     background-color: #ccc;
     border-radius: 50%;
     margin-right: 15px;
-    flex-shrink: 0;
-    object-fit: cover;
 }
 
-.messageContent {
+.messageInfo {
     flex: 1;
 }
 
-.userName {
+.sender {
+    margin: 0;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
-.messagePreview {
+.preview {
+    margin: 0;
     color: #555;
-    font-size: 12px;
+    font-size: 14px;
 }
-
-/* Style spécifique pour rendre la liste des messages scrollable */
-.scrollable {
-    max-height: 265px; /* Hauteur maximale de la liste des messages */
-    overflow-y: auto; /* Activation du défilement vertical */
-
-    /* Masquer la barre de défilement */
-    scrollbar-width: thin; /* Pour Firefox */
-    scrollbar-color: transparent transparent; /* Pour Firefox */
-}
-
-
-
-.scrollable::-webkit-scrollbar-track {
-    background: transparent; /* Couleur de fond de la piste */
-}
-

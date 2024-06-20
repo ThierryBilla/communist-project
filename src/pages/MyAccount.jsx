@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Importer useState depuis React
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ProfileMenu from '../components/ProfileMenu';
@@ -8,7 +8,7 @@ import styles from '../css/MyAccount.module.css';
 
 const MyAccount = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState('profile'); // Utiliser useState ici
+  const [selectedOption, setSelectedOption] = useState('profile');
 
   const handleMenuClick = (option) => {
     setSelectedOption(option);

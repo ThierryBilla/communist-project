@@ -1,48 +1,55 @@
-/* SwiperCard.module.css */
-
-.container {
+.parentContainer {
     display: flex;
     justify-content: center;
-    align-items: center; /* Centrage vertical */
-    height: 100%;
+    align-items: center;
+    height: 100%; /* Full height of the viewport */
+    width: 100%;
+}
+
+.container {
+    position: relative;
+    width: 850px;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertical centering */
 }
 
 .card {
-    width: 850px;
-    height: 450px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    margin: 20px;
     display: flex;
     overflow: hidden;
-    transition: transform 0.3s ease; /* Transition générale pour le swipe */
-}
-
-.card.liked .infoContainer {
-    animation: none; /* Désactiver l'animation pour la carte suivante */
+    transition: transform 0.5s ease, opacity 0.5s ease; /* Transition for transform and opacity */
 }
 
 .card.liked {
-    animation: likedAnimation 0.3s ease; /* Animation spécifique pour le swipe vers la droite */
+    animation: likedAnimation 0.5s ease forwards; /* Animation for swipe right */
 }
 
 @keyframes likedAnimation {
     0% {
-        transform: translateX(0);
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
     }
     50% {
-        transform: translateX(800px); /* Déplacement vers la droite */
+        transform: translateX(800px) rotate(7deg); /* Move out to the right with slight rotation */
+        opacity: 1;
     }
     100% {
-        transform: translateX(0);
+        transform: translateX(1500px) rotate(15deg);
+        opacity: 0;
     }
 }
 
 .infoContainer {
     width: 50%;
     padding: 20px;
-    overflow-y: auto; /* Activation du défilement vertical */
+    overflow-y: auto; /* Enable vertical scrolling */
     background-color: #7C2D29;
 }
 
@@ -57,17 +64,6 @@
 .image {
     width: 100%;
     border-radius: 10px 0 0 10px;
-}
-
-.infoContainer {
-    width: 50%;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #7C2D29;
-}
-
-.scrollableInfo {
-    max-height: calc(100% - 40px); /* Ajustement de la hauteur maximale */
 }
 
 .name {
