@@ -68,11 +68,14 @@
 
 .name {
     margin-top: 0;
+    color: white;
 }
 
 .age, .description, .location {
     margin-bottom: 10px;
+    color: white;
 }
+
 
 .button {
     background-color: white;

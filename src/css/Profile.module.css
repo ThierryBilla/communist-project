@@ -4,4 +4,42 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+}
+
+.profileSummary {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profileDetails {
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+}
+
+.profilePicture {
+  width: 280px; /* Adjusted for a fixed width */
+  height: 360px; /* Adjusted for a fixed height to maintain 4/5 ratio */
+  border-radius: 5px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.textDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.textDetails p {
+  margin: 5px 0;
+}
+
+.fieldName {
+  color: #7C2D29;
+  font-weight: bold;
 }

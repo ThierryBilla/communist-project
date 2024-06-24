@@ -1,0 +1,79 @@
+.featuresContainer {
+  width: 100%;
+  padding: 0 6%; /* Ajoute 6% de padding à gauche et à droite */
+  box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+  background-color: #8E302B;
+}
+
+.features {
+  padding: 20px;
+  background-color: #8E302B;
+  border-radius: 8px; /* Ajoute des coins arrondis au conteneur principal */
+}
+
+.features h2 {
+  text-align: left;
+  font-size: 48px;
+  margin-top: 55px;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start; /* Aligne les items au début de la ligne */
+  margin-bottom: 60px;
+}
+
+.feature-left .placeholder {
+  margin-right: 20px;
+}
+
+.feature-right .placeholder {
+  margin-left: 20px;
+}
+
+.placeholder {
+  position: relative; /* Pour positionner l'image en absolu */
+  width: 400px;
+  height: 200px;
+  background-color: #630c03;
+  border-radius: 4px;
+  overflow: hidden; /* Cache l'image qui dépasse */
+}
+
+.placeholder img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrer l'image */
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 1;
+}
+
+.loveimgPlaceholder img {
+  transform: translate(-50%, -30%) scale(1.90); /* Augmente légèrement la taille de l'image loveimg */
+}
+
+.placeholder.shareimg img {
+  transform: translate(-50%, -50%) scale(1.35); /* Applique un effet de mise à l'échelle uniquement à shareimg */
+}
+
+.text {
+  flex: 1;
+}
+
+.text h3 {
+  margin: 0;
+  font-size: 24px;
+  margin-bottom: 15px; /* Augmente la marge inférieure */
+  color: yellow;
+}
+
+.text p {
+  margin: 0;
+  color: white; /* Ajoute une couleur blanche pour le texte du paragraphe */
+  line-height: 1.5; /* Augmente l'interligne */
+  text-align: justify; /* Justifie le texte du paragraphe */
+}

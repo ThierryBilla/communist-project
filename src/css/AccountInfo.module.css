@@ -1,0 +1,60 @@
+.accountInfoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* Largeur maximale pour éviter que le formulaire ne devienne trop large */
+    flex-direction: column;
+}
+
+.accountForm {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.accountForm input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.accountForm button {
+    padding: 10px;
+    background-color: #C0463F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    width: 200px;
+}
+
+.accountForm button:hover {
+    background-color: #a73b35;
+}

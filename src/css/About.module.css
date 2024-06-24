@@ -1,0 +1,42 @@
+.aboutContainer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f5; /* Couleur de fond douce et agréable */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajoute une légère ombre pour l'effet de profondeur */
+    font-family: 'Arial', sans-serif; /* Utilisation d'une police élégante */
+  }
+  
+  .content {
+    overflow: hidden; /* Ensure the container clears the floated image */
+  }
+  
+  .image {
+    float: left;
+    margin: 5px 20px 20px 0; /* Ajoute une marge à droite et en bas de l'image */
+    max-width: 200px; /* Ajuste cette valeur selon les besoins */
+    height: auto;
+    border-radius: 4px; /* Ajoute des coins arrondis à l'image */
+    border: 2px solid #ccc; /* Ajoute une bordure légère à l'image */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère à l'image */
+  }
+  
+  h1 {
+    text-align: left;
+    margin-top: 15px; 
+    margin-bottom: 30px;
+    color: #333; /* Couleur du texte */
+
+  }
+  
+  p {
+    margin-bottom: 16px;
+    color: #555; /* Couleur du texte */
+    line-height: 1.6; /* Améliore la lisibilité */
+    text-align: justify; /* Justifie le texte */
+  }
+  
+  p:last-child {
+    margin-bottom: 0; /* Supprime la marge inférieure du dernier paragraphe */
+  }
+  

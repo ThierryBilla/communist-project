@@ -1,29 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import styles from '../css/SwiperCard.module.css';
 import PrivateMessageList from './PrivateMessageList';
-
-const profiles = [
-    { name: 'Pietro', age: 30, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', location: 'Paris, France' },
-    { name: 'Alex', age: 25, description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', location: 'Berlin, Germany' },
-    // Add more profiles here
-];
+import { AuthContext } from '../contexts/AuthContext';
 
 const SwiperCard = () => {
+    const { token } = useContext(AuthContext);
+    const [profiles, setProfiles] = useState([]);
     const [index, setIndex] = useState(0);
     const [liked, setLiked] = useState(false);
     const [showPrivateMessages, setShowPrivateMessages] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
 
-    const handleSwiped = (eventData) => {
+    useEffect(() => {
+        fetchRandomProfile();
+    }, []);
+
+    const fetchRandomProfile = async () => {
+        try {
+            const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/random', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const newProfile = {
+                    name: data.username,
+                    age: data.age,
+                    description: data.biography || 'No biography available.',
+                    location: `${data.city}, ${data.countryOfResidence}`
+                };
+                setProfiles((prevProfiles) => [...prevProfiles, newProfile]);
+            } else {
+                console.error('Failed to fetch profile');
+            }
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    };
+
+    const handleSwiped = async (eventData) => {
         const direction = eventData.dir;
         if (direction === 'Right') {
             setLiked(true);
-            setTimeout(() => {
+            setTimeout(async () => {
+                setLiked(false);
                 setIndex((prevIndex) => (prevIndex + 1) % profiles.length);
+                await fetchRandomProfile();
                 setShowPrivateMessages(false); // Reset to show basic info
                 setSelectedMessage(null); // Reset selected message
-                setLiked(false); // Reset liked state after animation
             }, 500); // Match the animation duration
         }
     };
@@ -46,7 +74,7 @@ const SwiperCard = () => {
                     <div
                         key={i}
                         className={`${styles.card} ${liked && i === index ? styles.liked : ''}`}
-                        style={{ zIndex: profiles.length - i, opacity: i < index ? 0 : 1 }}
+                        style={{ zIndex: profiles.length - i, opacity: i === index ? 1 : 0, pointerEvents: i === index ? 'auto' : 'none' }}
                     >
                         <div className={styles.imageContainer}>
                             <img src="placeholder.jpg" alt="image" className={styles.image} />
@@ -69,8 +97,8 @@ const SwiperCard = () => {
                                         <li className={styles.topic}>Topic 1: Lorem ipsum dolor sit amet</li>
                                         <li className={styles.topic}>Topic 2: Consectetur adipiscing elit</li>
                                         <li className={styles.topic}>Topic 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
-                                        <li className={styles.topic}>Topic 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
-                                        <li className={styles.topic}>Topic 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
+                                        <li className={styles.topic}>Topic 4: Excepteur sint occaecat cupidatat non proident</li>
+                                        <li className={styles.topic}>Topic 5: Sunt in culpa qui officia deserunt mollit anim id est laborum</li>
                                     </ul>
                                 </div>
                             )}
