@@ -1,18 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext'; // Adjust the import path as needed
 import styles from '../css/MatchTab.module.css';
 
-const MatchTab = ({ matches, onMatchClick }) => {
-    // Données factices pour les matchs
-    const dummyMatches = [
-        { id: 1, name: 'Match 1' },
-        { id: 2, name: 'Match 2' },
-        { id: 3, name: 'Match 3' },
-    ];
+const MatchTab = ({ onMatchClick }) => {
+    const { token } = useAuth();
+    const [matches, setMatches] = useState([]);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            if (token) {
+                try {
+                    console.log('Fetching user profile...');
+                    const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/profile', {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const userData = await response.json();
+                        console.log('User profile data:', userData);
+                        if (userData && userData.User && userData.User.id) {
+                            setUserId(userData.User.id);
+                            console.log('User ID set to:', userData.User.id);
+                        } else {
+                            console.error('User ID not found in user profile data');
+                        }
+                    } else {
+                        console.error('Failed to fetch user profile:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                }
+            }
+        };
+
+        fetchUserProfile();
+    }, [token]);
+
+    useEffect(() => {
+        const fetchMatches = async () => {
+            if (userId && token) {
+                try {
+                    console.log(`Fetching matches for user ID: ${userId} with token: ${token}`);
+                    const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/likes/matches/${userId}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const matchData = await response.json();
+                        console.log('Raw match data:', matchData);
+                        const formattedMatches = matchData.map(data => ({
+                            id: data.id,
+                            name: data.username,
+                        }));
+                        console.log('Formatted matches:', formattedMatches);
+                        setMatches(formattedMatches);
+                    } else {
+                        console.error('Failed to fetch matches:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching matches:', error);
+                }
+            } else {
+                console.log(`User ID (${userId}) or token (${token}) is missing. Cannot fetch matches.`);
+            }
+        };
+
+        if (userId && token) {
+            fetchMatches();
+        }
+    }, [userId, token]);
 
     return (
         <div className={styles.tab}>
             <ul className={styles.matchList}>
-                {dummyMatches.map(match => (
+                {matches.map(match => (
                     <li key={match.id} className={styles.matchItem} onClick={() => onMatchClick(match.id)}>
                         <div className={styles.imagePlaceholder}></div>
                         <div className={styles.matchDetails}>
@@ -22,6 +90,7 @@ const MatchTab = ({ matches, onMatchClick }) => {
                     </li>
                 ))}
             </ul>
+            {matches.length === 0 && <div>No matches found.</div>}
         </div>
     );
 };

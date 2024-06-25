@@ -64,7 +64,7 @@ const Profile = ({ selectedOption }) => {
           <h1>My Profile</h1>
           <div className={styles.profileDetails}>
             <img
-              src={profileData.profilePicture || 'https://via.placeholder.com/150'}
+              src={profileData.profilePicture || 'https://via.placeholder.com/750'}
               alt="Profile"
               className={styles.profilePicture}
             />

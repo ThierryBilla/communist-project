@@ -31,6 +31,10 @@
     animation: likedAnimation 0.5s ease forwards; /* Animation for swipe right */
 }
 
+.card.disliked {
+    animation: dislikedAnimation 0.5s ease forwards; /* Animation for swipe left */
+}
+
 @keyframes likedAnimation {
     0% {
         transform: translateX(0) rotate(0deg);
@@ -46,15 +50,40 @@
     }
 }
 
+@keyframes dislikedAnimation {
+    0% {
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-800px) rotate(-7deg); /* Move out to the left with slight rotation */
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-1500px) rotate(-15deg);
+        opacity: 0;
+    }
+}
+
 .infoContainer {
     width: 50%;
     padding: 20px;
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: hidden; /* Prevent scrolling of the entire container */
     background-color: #7C2D29;
 }
 
 .scrollableInfo {
-    max-height: 100%;
+    max-height: calc(100% - 60px); /* Adjust height considering name and margins */
+    overflow-y: auto;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+    display: none; /* Hide the scrollbar for webkit browsers */
+}
+
+.hideScrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 .imageContainer {
@@ -69,13 +98,15 @@
 .name {
     margin-top: 0;
     color: white;
+    position: sticky;
+    top: 0;
+    background-color: #7C2D29; /* Ensure the background matches the infoContainer */
 }
 
 .age, .description, .location {
     margin-bottom: 10px;
     color: white;
 }
-
 
 .button {
     background-color: white;

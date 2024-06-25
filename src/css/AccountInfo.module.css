@@ -8,6 +8,13 @@
     flex-direction: column;
 }
 
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
 .accountForm {
     padding: 20px;
     width: 100%;

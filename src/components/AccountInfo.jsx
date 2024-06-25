@@ -23,7 +23,7 @@ const AccountInfo = () => {
 
     return (
         <div className={styles.accountInfoContainer}>
-            <h1>Account Info</h1>
+            <h1 className={styles.title}>Account Info</h1>
             <form className={styles.accountForm} onSubmit={handleSubmit}>
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>

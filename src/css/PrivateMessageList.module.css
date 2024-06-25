@@ -6,6 +6,8 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
+    height: 100%; /* Set height to fill the parent container */
+    overflow: hidden; /* Ensures overflow content is handled by child elements */
 }
 
 .header {
@@ -26,6 +28,14 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto; /* Enable vertical scrolling */
+    flex-grow: 1; /* Allows the list to take up all available space */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.messageList::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
 }
 
 .messageItem {
