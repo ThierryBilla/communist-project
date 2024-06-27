@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import styles from '../css/Signup.module.css';
 import Modal from '../components/Modal';
 
 const Signup = () => {
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -60,7 +62,7 @@ const Signup = () => {
                 body: JSON.stringify(dataToSend)
             });
             if (response.ok) {
-                // Redirect to login
+                navigate('/Signin'); // Redirect to login
             } else {
                 // Error message
             }
