@@ -1,15 +1,20 @@
 /* MatchTab.module.css */
 
 .tab {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ensure the tab occupies the full height of the window */
+    width: 100%; /* Full width of the tab */
     background-color: #f2f2f2;
     padding: 20px;
 }
 
 .matchList {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
     margin: 0;
+    flex: 1; /* Ensure the match list occupies all available space */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .matchItem {
@@ -19,7 +24,7 @@
     margin-bottom: 10px;
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -37,15 +42,18 @@
 }
 
 .matchDetails {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
 }
 
 .matchName {
+    margin: 0;
     font-weight: bold;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
 .matchPreview {
-    color: #999;
+    margin: 0;
+    color: #555;
+    font-size: 14px;
 }

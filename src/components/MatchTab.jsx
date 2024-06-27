@@ -8,6 +8,8 @@ const MatchTab = ({ onBack }) => {
     const [matches, setMatches] = useState([]);
     const [userId, setUserId] = useState(null);
     const [activeChat, setActiveChat] = useState(null); // State to handle active chat
+    const [chats, setChats] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -43,39 +45,85 @@ const MatchTab = ({ onBack }) => {
     }, [token]);
 
     useEffect(() => {
-        const fetchMatches = async () => {
+        const fetchData = async () => {
             if (userId && token) {
                 try {
-                    console.log(`Fetching matches for user ID: ${userId} with token: ${token}`);
-                    const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/likes/matches/${userId}`, {
-                        method: 'GET',
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
+                    setIsLoading(true);
+
+                    const [matchesResponse, chatsResponse] = await Promise.all([
+                        fetch(`https://communistdate-0f582f5caf12.herokuapp.com/likes/matches/${userId}`, {
+                            method: 'GET',
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                        fetch('https://communistdate-0f582f5caf12.herokuapp.com/chat/allPersonalChats', {
+                            method: 'GET',
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        })
+                    ]);
+
+                    if (!matchesResponse.ok) {
+                        throw new Error('Failed to fetch matches');
+                    }
+
+                    if (!chatsResponse.ok) {
+                        throw new Error('Failed to fetch chats');
+                    }
+
+                    const matchData = await matchesResponse.json();
+                    const chatData = await chatsResponse.json();
+
+                    console.log('Raw match data:', matchData);
+                    const formattedMatches = matchData.map(data => ({
+                        id: data.id,
+                        name: data.username,
+                    }));
+                    console.log('Formatted matches:', formattedMatches);
+
+                    // Agréger les messages par utilisateur
+                    const chatMap = new Map();
+
+                    chatData.forEach(userChat => {
+                        userChat.chats.forEach(chat => {
+                            const sender = userChat.user.username;
+                            if (!chatMap.has(sender)) {
+                                chatMap.set(sender, {
+                                    id: userChat.user.id,
+                                    sender,
+                                    fullMessages: []
+                                });
+                            }
+                            if (chat.messages && Array.isArray(chat.messages)) {
+                                chatMap.get(sender).fullMessages.push(...chat.messages);
+                            }
+                        });
                     });
 
-                    if (response.ok) {
-                        const matchData = await response.json();
-                        console.log('Raw match data:', matchData);
-                        const formattedMatches = matchData.map(data => ({
-                            id: data.id,
-                            name: data.username,
-                        }));
-                        console.log('Formatted matches:', formattedMatches);
-                        setMatches(formattedMatches);
-                    } else {
-                        console.error('Failed to fetch matches:', response.statusText);
-                    }
+                    // Convertir le Map en tableau et créer des aperçus
+                    const formattedChats = Array.from(chatMap.values()).map(chat => ({
+                        ...chat,
+                        text: chat.fullMessages.length > 0 ? chat.fullMessages[0].text : 'No messages',
+                        preview: chat.fullMessages.length > 0 ? chat.fullMessages[0].text.slice(0, 30) + '...' : 'No messages'
+                    }));
+
+                    console.log('Formatted chats:', formattedChats);
+                    setChats(formattedChats);
+
+                    const filteredMatches = formattedMatches.filter(match => !formattedChats.some(chat => chat.id === match.id));
+                    setMatches(filteredMatches);
+                    setIsLoading(false);
                 } catch (error) {
-                    console.error('Error fetching matches:', error);
+                    console.error('Error fetching data:', error);
+                    setIsLoading(false);
                 }
-            } else {
-                console.log(`User ID (${userId}) or token (${token}) is missing. Cannot fetch matches.`);
             }
         };
 
         if (userId && token) {
-            fetchMatches();
+            fetchData();
         }
     }, [userId, token]);
 
@@ -88,7 +136,9 @@ const MatchTab = ({ onBack }) => {
 
     return (
         <div className={styles.tab}>
-            {activeChat ? (
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : activeChat ? (
                 <ChatBox chat={activeChat} onBack={() => setActiveChat(null)} />
             ) : (
                 <ul className={styles.matchList}>
@@ -103,7 +153,7 @@ const MatchTab = ({ onBack }) => {
                     ))}
                 </ul>
             )}
-            {matches.length === 0 && <div>No matches found.</div>}
+            {!isLoading && matches.length === 0 && <div>No matches found.</div>}
         </div>
     );
 };
