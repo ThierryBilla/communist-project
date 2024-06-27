@@ -96,7 +96,8 @@
 }
 
 .name {
-    margin-top: 0;
+    margin-top: 8px;
+    margin-bottom: 20px;
     color: white;
     position: sticky;
     top: 0;
@@ -120,14 +121,69 @@
 
 .topicHeader {
     margin-top: 20px;
+    color: white;
 }
 
-.topics {
-    list-style-type: none;
+.blogList {
+    list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.topic {
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
+.blogItem {
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.blogItem:hover {
+    transform: translateY(-2px);
+}
+
+.blogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-radius 0.3s;
+    border-radius: 10px; /* Keep corners rounded */
+    background-color: #7C2D29; /* Ensure it matches the card background */
+    color: white;
+}
+
+.blogHeader:hover {
+    background-color: #69231f;
+}
+
+.blogTitle {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.blogActions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon {
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s;
+}
+
+.icon:hover {
+    color: yellow;
+}
+
+.blogContent {
+    padding: 20px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f0f0f0;
+    line-height: 1.6;
+    border-radius: 0 0 10px 10px;
 }

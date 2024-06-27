@@ -12,9 +12,10 @@ const SwiperCard = () => {
     const [disliked, setDisliked] = useState(false);
     const [showPrivateMessages, setShowPrivateMessages] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
+    const [expandedTopic, setExpandedTopic] = useState(null);
 
     useEffect(() => {
-        fetchRandomProfiles(); // Adjusted to pre-fetch multiple profiles
+        fetchRandomProfiles();
     }, []);
 
     const fetchRandomProfiles = async () => {
@@ -29,12 +30,20 @@ const SwiperCard = () => {
             if (response.ok) {
                 const data = await response.json();
                 const newProfile = {
-                    id: data.id, // Ensure to include the user ID
+                    id: data.id,
                     name: data.username,
                     age: data.age,
                     description: data.biography || 'No biography available.',
                     location: `${data.city}, ${data.countryOfResidence}`,
-                    liked: false // Initialize liked as false
+                    topics: [
+                        { id: 1, title: 'How I met our leader Pietro?', content: 'Content of Topic 1' },
+                        { id: 2, title: 'Ive been converted to Stalinism', content: 'Content of Topic 2' },
+                        { id: 3, title: 'Topic 3', content: 'Content of Topic 3' },
+                        { id: 4, title: 'Topic 4', content: 'Content of Topic 4' },
+                        { id: 5, title: 'Topic 5', content: 'Content of Topic 5' },
+                        { id: 6, title: 'Topic 6', content: 'Content of Topic 6' }
+                    ],
+                    liked: false
                 };
                 setProfiles(prevProfiles => [...prevProfiles, newProfile]);
             } else {
@@ -78,7 +87,7 @@ const SwiperCard = () => {
             setTimeout(() => {
                 setLiked(false);
                 moveToNextProfile();
-            }, 500); // Match the animation duration
+            }, 500);
         } else if (direction === 'Left') {
             setDisliked(true);
             updatedProfiles[index].liked = false;
@@ -87,7 +96,7 @@ const SwiperCard = () => {
             setTimeout(() => {
                 setDisliked(false);
                 moveToNextProfile();
-            }, 500); // Match the animation duration
+            }, 500);
         }
 
         setProfiles(updatedProfiles);
@@ -108,6 +117,10 @@ const SwiperCard = () => {
     const togglePrivateMessages = (message = null) => {
         setSelectedMessage(message);
         setShowPrivateMessages(!showPrivateMessages);
+    };
+
+    const toggleExpandTopic = (id) => {
+        setExpandedTopic(expandedTopic === id ? null : id);
     };
 
     const handlers = useSwipeable({
@@ -143,12 +156,19 @@ const SwiperCard = () => {
                                     <p className={styles.location}>Location: {profile.location}</p>
                                     <button className={styles.button} onClick={() => togglePrivateMessages(profile)}>Watch his private messages</button>
                                     <h3 className={styles.topicHeader}>Topics</h3>
-                                    <ul className={styles.topics}>
-                                        <li className={styles.topic}>Topic 1: Lorem ipsum dolor sit amet</li>
-                                        <li className={styles.topic}>Topic 2: Consectetur adipiscing elit</li>
-                                        <li className={styles.topic}>Topic 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
-                                        <li className={styles.topic}>Topic 4: Excepteur sint occaecat cupidatat non proident</li>
-                                        <li className={styles.topic}>Topic 5: Sunt in culpa qui officia deserunt mollit anim id est laborum</li>
+                                    <ul className={styles.blogList}>
+                                        {profile.topics.map((topic, index) => (
+                                            <li key={index} className={styles.blogItem}>
+                                                <div className={styles.blogHeader} onClick={() => toggleExpandTopic(index)}>
+                                                    <div className={styles.blogTitle}>{topic.title}</div>
+                                                </div>
+                                                {expandedTopic === index && (
+                                                    <div className={styles.blogContent}>
+                                                        {topic.content}
+                                                    </div>
+                                                )}
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             )}
