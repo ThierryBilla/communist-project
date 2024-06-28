@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import styles from '../css/Signup.module.css';
 import Modal from '../components/Modal';
+import Navbar from './Navbar';
 
 const Signup = () => {
     const navigate = useNavigate(); // Get the navigate function from react-router-dom
@@ -82,6 +83,9 @@ const Signup = () => {
     const shouldDisplaySlider = formData.politicalBelief !== "non communist" && formData.politicalBelief !== "";
 
     return (
+        <div>
+            <Navbar /> {/* Add Navbar */}
+        
         <div className={styles.signupContainer}>
             <div className={styles.overlay}></div>
             <form className={styles.signupForm} onSubmit={handleSubmit}>
@@ -181,6 +185,7 @@ const Signup = () => {
                 <p className={styles.loginPrompt}>Do you have an account? <a href="/Signin">Login</a></p>
             </form>
             {formData.showModal && <Modal handleClose={handleCloseModal} message="Attention the big brother is watching you" />}
+        </div>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import { useAuth } from '../contexts/AuthContext';
 import styles from '../css/Signin.module.css';
+import Navbar from './Navbar';
 
 const Signin = () => {
   const navigate = useNavigate(); // Get the navigate function from react-router-dom
@@ -59,7 +60,10 @@ const Signin = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className={styles.signinContainer}>
+      
       <div className={styles.overlay}></div>
       <form className={styles.signinForm} onSubmit={handleSubmit}>
         <h2>Login</h2>
@@ -85,6 +89,7 @@ const Signin = () => {
           Don't have an account? <a href="/Signup">Register now</a>
         </p>
       </form>
+    </div>
     </div>
   );
 };

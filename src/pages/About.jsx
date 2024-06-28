@@ -12,7 +12,7 @@ const About = () => {
         <div className={styles.content}>
           <img src={PietroImage} alt="Pietro" className={styles.image} />
           <p>
-            In the year 2024, times are tough. Italy, once a proud nation with a booming population, is now facing an
+            In the year 2024, times are tough. Europe, once a proud nation with a booming population, is now facing an
             unprecedented demographic challenge: our young people are abandoning the fields and factories to indulge in the
             frivolous joys of social media and avocado toast.
           </p>
@@ -22,11 +22,11 @@ const About = () => {
             hour, but let's not dwell on that...).
           </p>
           <p>
-            And so, this website was born, a haven designed to awaken sleeping consciences and kickstart the Italian baby
+            And so, this website was born, a haven designed to awaken sleeping consciences and kickstart the European baby
             machine.
           </p>
           <p>
-            Join us in our crusade for a more populous, louder, and more fragrant Italy! Together, we will make Italy the
+            Join us in our crusade for a more populous, louder, and more fragrant Europe! Together, we will make Europe the
             new China, with overcrowded nurseries and endless queues at the bakery.
           </p>
           <p>
@@ -35,7 +35,7 @@ const About = () => {
             us a choice, let's be honest).
           </p>
           <p>
-            So what are you waiting for? Come meet the hottest communists in your area. Together, we will make Italy the
+            So what are you waiting for? Come meet the hottest communists in your area. Together, we will make Europe the
             funniest and most populous country in Europe (or at least, we'll try).
           </p>
           <p>Remember: reproduction is a patriotic act!</p>
