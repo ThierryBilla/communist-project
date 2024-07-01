@@ -33,8 +33,11 @@ const SwiperCard = () => {
                     id: data.id,
                     name: data.username,
                     age: data.age,
+                    partnerShare: data.partnerShare,
                     description: data.biography || 'No biography available.',
                     location: `${data.city}, ${data.countryOfResidence}`,
+                    politicalBelief: data.politicalBelief,
+                    communismLevel: data.communismLevel,
                     topics: [
                         { id: 1, title: 'How I met our leader Pietro?', content: 'Content of Topic 1' },
                         { id: 2, title: 'Ive been converted to Stalinism', content: 'Content of Topic 2' },
@@ -130,6 +133,17 @@ const SwiperCard = () => {
         trackMouse: true,
     });
 
+    const renderStars = (level) => {
+        if (level === 0) {
+            return <span className={styles.capitalist}>⚠️ capitalist</span>;
+        }
+        return Array.from({ length: level }, (_, i) => <span key={i} className={styles.star}>⭐</span>);
+    };
+
+    const renderPartnerShare = (share) => {
+        return share ? <span className={styles.partnerShare}>Share and Care</span> : <span className={styles.partnerShare}>Keep to Myself</span>;
+    };
+
     return (
         <div className={styles.parentContainer}>
             <div className={styles.container} {...handlers}>
@@ -152,10 +166,13 @@ const SwiperCard = () => {
                                 />
                             ) : (
                                 <div className={`${styles.scrollableInfo} ${styles.hideScrollbar}`}>
-                                    <p className={styles.description}>Description: {profile.description}</p>
-                                    <p className={styles.location}>Location: {profile.location}</p>
+                                    <p className={styles.description}>{profile.description}</p>
+                                    <p className={styles.location}><strong>Location:</strong> {profile.location}</p>
+                                    <p className={styles.politicalBelief}><strong>Political Belief:</strong> {profile.politicalBelief}</p>
+                                    <p className={styles.communismLevel}><strong>Communism Level:</strong> {renderStars(profile.communismLevel)}</p>
+                                    <p className={styles.partnerShare}><strong>Partner Share:</strong> {renderPartnerShare(profile.partnerShare)}</p>
                                     <button className={styles.button} onClick={() => togglePrivateMessages(profile)}>Watch his private messages</button>
-                                    <h3 className={styles.topicHeader}>Topics</h3>
+                                    <h3 className={styles.topicHeader}>{profile.name}'s blogs   :</h3>
                                     <ul className={styles.blogList}>
                                         {profile.topics.map((topic, index) => (
                                             <li key={index} className={styles.blogItem}>

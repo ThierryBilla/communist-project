@@ -45,12 +45,12 @@
 }
 
 .sent {
-    background-color: #d1f5d3;
-    align-self: flex-end;
+    background-color: #f1f1f1;
+    align-self: flex-end;   
 }
 
 .received {
-    background-color: #f1f1f1;
+    background-color: #b8585e;
     align-self: flex-start;
 }
 

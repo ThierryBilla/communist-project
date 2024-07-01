@@ -82,7 +82,7 @@ const ChatTab = ({ onMessageClick }) => {
                             </li>
                         ))
                     ) : (
-                        <li>Aucune conversation trouvée</li>
+                        <li>No conversation found</li>
                     )}
                 </ul>
             )}
