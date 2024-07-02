@@ -15,7 +15,8 @@ const Hero = () => {
         <div className={styles.hero}>
             <img src={communistHeroImage} alt="Hero Image" className={styles['hero-image']} />
             <div className={styles.overlay}></div>
-            <div className={styles['button-container']}>
+            <div className={styles['content-container']}>
+                <h1 className={styles['hero-title']}>Ready to Spread Revolutionary Love and Fill Europe's Nurseries?</h1>
                 <button className={styles['get-started-button']} onClick={handleGetStartedClick}>
                     <img src={getstarted} alt="Get Started" className={styles['get-started-image']} />
                 </button>

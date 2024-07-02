@@ -3,8 +3,12 @@
     height: 90vh;
     overflow: hidden;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; /* Center the content container */
+    align-items: center; /* Center the content container vertically */
+    text-align: center; /* Center text alignment */
 }
+
+
 
 .hero-image {
     width: 100%;
@@ -23,12 +27,26 @@
     z-index: 1; /* Ensure the overlay is above the image */
 }
 
-.button-container {
+.content-container {
     position: absolute;
     bottom: 150px; /* Distance from the bottom */
-    right: 50%; /* Center the button horizontally */
-    transform: translateX(50%); /* Center the button */
-    z-index: 2; /* Ensure the button is above the overlay */
+    text-align: center;
+    z-index: 2; /* Ensure the content is above the overlay */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    color: white !important;
+    margin-bottom: 30px;
+    margin-right: 20%;
+    margin-left: 20%;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.2; /* Adjust line height for better readability */
+    white-space: pre-wrap; /* Preserve white space and wrap text */
+    text-align: center;
 }
 
 .get-started-button {

@@ -6,12 +6,20 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: 100%; /* Set height to fill the parent container */
-    overflow: hidden; /* Ensures overflow content is handled by child elements */
+    height: 100%;
+    overflow: hidden;
+}
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .header {
-    margin-bottom: 20px;
+    flex-grow: 1;
+    margin: 0;
+    font-size: 1.5rem;
 }
 
 .backButton {
@@ -19,23 +27,30 @@
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 4px 4px;
     cursor: pointer;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* Add space between the button and the title */
+}
+
+.backButton:hover {
+    background-color: #6A231F;
+    font-weight: bold;
 }
 
 .messageList {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    overflow-y: auto; /* Enable vertical scrolling */
-    flex-grow: 1; /* Allows the list to take up all available space */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    overflow-y: auto;
+    flex-grow: 1;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .messageList::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for WebKit browsers */
+    display: none;
 }
 
 .messageItem {

@@ -6,7 +6,8 @@ import Dating from '../pages/Dating';
 import Signup from '../components/Signup';
 import Signin from '../components/Signin';
 import MyAccount from '../pages/MyAccount';
-import About from '../pages/About'; // Import the About page
+import About from '../pages/About'; 
+import Contact from '../pages/Contact';
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
   const { user, loading } = useAuth();
@@ -28,7 +29,8 @@ function AppRouter() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/myaccount" element={<PrivateRoute element={MyAccount} />} />
-          <Route path="/about" element={<About />} /> {/* Add the About route */}
+          <Route path="/about" element={<About />} /> 
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
