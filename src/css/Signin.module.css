@@ -52,7 +52,7 @@
 
 .formGroup input[type="text"],
 .formGroup input[type="password"] {
-    width: calc(100% - 20px); /* Réduire la largeur pour compenser la marge du padding */
+    width: 100%; /* Réduire la largeur pour compenser la marge du padding */
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
