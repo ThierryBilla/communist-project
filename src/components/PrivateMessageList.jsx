@@ -42,9 +42,10 @@ const PrivateMessageList = ({ selectedMessage, togglePrivateMessages, setSelecte
                                     userName: `User ${index + 1}`,
                                     content: `Message content ${index + 1}`,
                                     timestamp: new Date().toISOString(),
+                                    profilePicture: `https://example.com/profile/${index + 1}.jpg`, // Add profile picture URL
                                 })}
                             >
-                                <div className={styles.imagePlaceholder}></div>
+                                <img src={`https://example.com/profile/${index + 1}.jpg`} alt={`User ${index + 1}`} className={styles.profileImage} />
                                 <div className={styles.messageInfo}>
                                     <div className={styles.sender}>User {index + 1}</div>
                                     <div className={styles.preview}>Preview of the last message...</div>

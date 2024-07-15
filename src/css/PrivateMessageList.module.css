@@ -14,12 +14,16 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    height: 40px; /* Define a fixed height for the container */
 }
 
 .header {
     flex-grow: 1;
     margin: 0;
     font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 100%; /* Match the height of the container */
 }
 
 .backButton {
@@ -27,16 +31,24 @@
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 4px 4px;
+    padding: 0 8px; /* Adjust padding for appropriate width */
     cursor: pointer;
     display: flex;
     align-items: center;
-    margin-right: 10px; /* Add space between the button and the title */
+    justify-content: center;
+    margin-right: 10px;
+    height: 90%; /* Match the height of the container */
+    margin-top: 0 !important; /* Override any inherited margin-top */
 }
 
 .backButton:hover {
     background-color: #6A231F;
     font-weight: bold;
+}
+
+.arrow {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .messageList {
@@ -69,11 +81,11 @@
     background-color: #eee;
 }
 
-.imagePlaceholder {
+.profileImage {
     width: 50px;
     height: 50px;
-    background-color: #ccc;
     border-radius: 50%;
+    object-fit: cover;
     margin-right: 15px;
 }
 

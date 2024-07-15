@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../css/ProfileInfo.module.css';
+import { useAuth } from '../contexts/AuthContext';
 
 const ProfileInfo = () => {
+    const { token } = useAuth();
     const [profileData, setProfileData] = useState({
         profilePicture: '',
         description: '',
@@ -13,6 +15,37 @@ const ProfileInfo = () => {
         politicalBelief: '',
         communismLevel: '1'
     });
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            if (token) {
+                try {
+                    const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/profile', {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data && data.User && data.User.id) {
+                            setUserId(data.User.id);
+                        } else {
+                            console.error('Invalid profile data structure:', data);
+                        }
+                    } else {
+                        console.error('Failed to fetch profile data');
+                    }
+                } catch (error) {
+                    console.error('Error fetching profile data:', error);
+                }
+            }
+        };
+
+        fetchProfileData();
+    }, [token]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -33,19 +66,55 @@ const ProfileInfo = () => {
         setProfileData(updatedData);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        
         console.log('Profile data:', profileData);
+        console.log('User ID:', userId);
+
+        if (profileData.profilePicture && userId) {
+            const formData = new FormData();
+            formData.append('profilePicture', profileData.profilePicture);
+
+            // Debugging FormData
+            for (let pair of formData.entries()) {
+                console.log(pair[0]+ ': ' + pair[1]); 
+            }
+
+            try {
+                const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/users/${userId}/uploadProfilePicture`, {
+                    method: 'PUT',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const data = await response.json();
+                        console.log('Success:', data);
+                    } else {
+                        const textData = await response.text();
+                        console.log('Response is not JSON:', textData);
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.error('Failed to upload profile picture:', errorText);
+                }
+            } catch (error) {
+                console.error('Error uploading profile picture:', error);
+            }
+        } else {
+            console.log('No profile picture selected or user ID not available');
+        }
     };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileData({ ...profileData, profilePicture: reader.result });
-            };
-            reader.readAsDataURL(file);
+            setProfileData({ ...profileData, profilePicture: file });
         }
     };
 
@@ -70,7 +139,7 @@ const ProfileInfo = () => {
                             <input type="file" name="profilePicture" onChange={handleFileChange} />
                         </label>
                         {profileData.profilePicture && (
-                            <img src={profileData.profilePicture} alt="Profile" className={styles.profilePicture} />
+                            <img src={URL.createObjectURL(profileData.profilePicture)} alt="Profile" className={styles.profilePicture} />
                         )}
                     </div>
                     <div className={styles.formGroup}>

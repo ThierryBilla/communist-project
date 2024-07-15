@@ -38,6 +38,7 @@ const SwiperCard = () => {
                     location: `${data.city}, ${data.countryOfResidence}`,
                     politicalBelief: data.politicalBelief,
                     communismLevel: data.communismLevel,
+                    profilePicture: data.profilePicture || 'placeholder.jpg', // Include profilePicture
                     topics: [
                         { id: 1, title: 'How I met our leader Pietro?', content: 'Content of Topic 1' },
                         { id: 2, title: 'Ive been converted to Stalinism', content: 'Content of Topic 2' },
@@ -154,7 +155,7 @@ const SwiperCard = () => {
                         style={{ zIndex: profiles.length - i, opacity: i === index ? 1 : 0, pointerEvents: i === index ? 'auto' : 'none' }}
                     >
                         <div className={styles.imageContainer}>
-                            <img src="placeholder.jpg" alt="image" className={styles.image} />
+                            <img src={profile.profilePicture} alt={`${profile.name}'s profile`} className={styles.image} />
                         </div>
                         <div className={`${styles.infoContainer} ${liked && i === index ? styles.swipedRight : ''} ${disliked && i === index ? styles.swipedLeft : ''}`}>
                             <h2 className={styles.name}>{profile.name}, <span className={styles.age}>{profile.age}</span></h2>

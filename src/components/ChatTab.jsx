@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import styles from '../css/ChatTab.module.css';
 import ChatBox from './ChatBox';
 import { AuthContext } from '../contexts/AuthContext';
+import styles from '../css/ChatTab.module.css';
 
-const ChatTab = ({ onMessageClick }) => {
+const ChatTab = () => {
     const [activeChat, setActiveChat] = useState(null);
     const [chats, setChats] = useState([]);
     const { token } = useContext(AuthContext);
@@ -22,16 +22,18 @@ const ChatTab = ({ onMessageClick }) => {
                     const data = await response.json();
                     console.log('Fetched chats:', data);
 
-                    // Agréger les messages par utilisateur
                     const chatMap = new Map();
 
                     data.forEach(userChat => {
                         userChat.chats.forEach(chat => {
                             const sender = userChat.user.username;
+                            const profilePicture = userChat.user.profilePicture; // Get profile picture
+
                             if (!chatMap.has(sender)) {
                                 chatMap.set(sender, {
                                     id: userChat.user.id,
                                     sender,
+                                    profilePicture, // Include profile picture
                                     fullMessages: []
                                 });
                             }
@@ -41,7 +43,6 @@ const ChatTab = ({ onMessageClick }) => {
                         });
                     });
 
-                    // Convertir le Map en tableau et créer des aperçus
                     const formattedChats = Array.from(chatMap.values()).map(chat => ({
                         ...chat,
                         text: chat.fullMessages.length > 0 ? chat.fullMessages[0].text : 'No messages',
@@ -74,7 +75,7 @@ const ChatTab = ({ onMessageClick }) => {
                     {chats.length > 0 ? (
                         chats.map(chat => (
                             <li key={chat.id} onClick={() => handleChatClick(chat)} className={styles.messageItem}>
-                                <div className={styles.imagePlaceholder}></div>
+                                <img src={chat.profilePicture || 'https://via.placeholder.com/50'} alt={chat.sender} className={styles.profileImage} />
                                 <div className={styles.messageInfo}>
                                     <div className={styles.sender}>{chat.sender}</div>
                                     <div className={styles.preview}>{chat.preview}</div>

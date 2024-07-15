@@ -7,6 +7,11 @@ body, html, #root {
     margin: 0;
 }
 
+/* Réinitialiser le margin-top pour tous les boutons */
+button {
+    margin-top: 0 !important;
+}
+
 .chatBox {
     display: flex;
     flex-direction: column;
@@ -52,11 +57,11 @@ body, html, #root {
     align-items: center;
 }
 
-.userImagePlaceholder {
+.userImage {
     width: 40px;
     height: 40px;
-    background-color: #ccc;
     border-radius: 50%;
+    object-fit: cover;
     margin-right: 10px;
 }
 
@@ -133,5 +138,54 @@ body, html, #root {
 }
 
 .sendButton:hover {
+    background-color: #5a1f1c;
+}
+
+.pickUpLines {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 60px; /* Add margin bottom to ensure visibility */
+}
+
+.pickUpLineButton {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #7C2D29;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pickUpLines .pickUpLineButton:last-child {
+    margin-bottom: 50px;
+}
+
+.pickUpLineButton:hover {
+    background-color: #5a1f1c;
+}
+
+.helpButtonContainer {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.helpButton {
+    padding: 10px 20px;
+    background-color: #7C2D29;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 400px;
+}
+
+.helpButton:hover {
     background-color: #5a1f1c;
 }

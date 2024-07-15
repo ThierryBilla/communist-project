@@ -14,6 +14,8 @@ const Signin = () => {
     showPassword: false
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -35,6 +37,8 @@ const Signin = () => {
     const { username, password } = formData;
 
     try {
+      console.log('Sending login request with:', { username, password });
+
       const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/login', {
         method: 'POST',
         headers: {
@@ -43,53 +47,67 @@ const Signin = () => {
         body: JSON.stringify({ username, password }),
       });
 
+      const text = await response.text(); // Read the response as text
+
+      console.log('Server response status:', response.status);
+      console.log('Server response text:', text);
+
       if (response.ok) {
-        const data = await response.json();
+        const data = text ? JSON.parse(text) : {};
         console.log('Login successful:', data);
-        login(data.user, data.token); // Store user and token in context
-        navigate('/dating'); // Redirect to the 'Dating' page upon successful login
+
+        if (data.user && data.token) {
+          login(data.user, data.token); // Store user and token in context
+          navigate('/dating'); // Redirect to the 'Dating' page upon successful login
+        } else {
+          console.error('Invalid login response:', data);
+          setErrorMessage('Invalid login response from server.');
+        }
       } else {
-        const errorData = await response.json();
+        const errorData = text ? JSON.parse(text) : {};
         console.error('Login failed:', errorData);
-        // Handle login error (e.g., display error message)
+        if (response.status === 401) {
+          setErrorMessage('Incorrect username or password.');
+        } else {
+          setErrorMessage(errorData.message || 'Login failed');
+        }
       }
     } catch (error) {
       console.error('Error during login:', error);
-      // Handle network error
+      setErrorMessage('Network error or server is not responding');
     }
   };
 
   return (
     <div>
       <Navbar />
-    <div className={styles.signinContainer}>
-      
-      <div className={styles.overlay}></div>
-      <form className={styles.signinForm} onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className={styles.formGroup}>
-          <label>
-            Username:
-            <input type="text" name="username" value={formData.username} onChange={handleChange} required />
-          </label>
-          <label>
-            Password:
-            <input type={formData.showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} required />
-          </label>
-          <div className={styles.showPasswordContainer}>
+      <div className={styles.signinContainer}>
+        <div className={styles.overlay}></div>
+        <form className={styles.signinForm} onSubmit={handleSubmit}>
+          <h2>Login</h2>
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+          <div className={styles.formGroup}>
             <label>
-              <input type="checkbox" name="showPassword" checked={formData.showPassword} onChange={handleShowPassword} />
-              Show password
+              Username:
+              <input type="text" name="username" value={formData.username} onChange={handleChange} required />
             </label>
+            <label>
+              Password:
+              <input type={formData.showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} required />
+            </label>
+            <div className={styles.showPasswordContainer}>
+              <label>
+                <input type="checkbox" name="showPassword" checked={formData.showPassword} onChange={handleShowPassword} />
+                Show password
+              </label>
+            </div>
           </div>
-        </div>
-
-        <button type="submit">Login</button>
-        <p className={styles.registerPrompt}>
-          Don't have an account? <a href="/Signup">Register now</a>
-        </p>
-      </form>
-    </div>
+          <button type="submit">Login</button>
+          <p className={styles.registerPrompt}>
+            Don't have an account? <a href="/Signup">Register now</a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

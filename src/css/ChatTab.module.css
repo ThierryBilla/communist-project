@@ -1,5 +1,3 @@
-/* ChatTab.module.css */
-
 .tab {
     display: flex;
     flex-direction: column;
@@ -7,6 +5,7 @@
     width: 100%; /* Full width of the tab */
     background-color: #f2f2f2;
     padding: 20px;
+    overflow: hidden; /* Ensure that the overflow is managed within the container */
 }
 
 .messageList {
@@ -15,6 +14,7 @@
     margin: 0;
     flex: 1; /* Ensure the message list occupies all available space */
     overflow-y: auto; /* Enable vertical scrolling */
+    padding-bottom: 20px; /* Add padding to the bottom of the list */
 }
 
 .messageItem {
@@ -29,15 +29,19 @@
     transition: background-color 0.3s ease;
 }
 
+.messageItem:last-child {
+    margin-bottom: 50px; /* Ensure the last item is fully visible */
+}
+
 .messageItem:hover {
     background-color: #eee;
 }
 
-.imagePlaceholder {
+.profileImage {
     width: 50px;
     height: 50px;
-    background-color: #ccc;
     border-radius: 50%;
+    object-fit: cover;
     margin-right: 15px;
 }
 
@@ -56,4 +60,66 @@
     margin: 0;
     color: #555;
     font-size: 14px;
+}
+
+.chatBox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #7C2D29;
+    color: white;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.sender {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.messageText {
+    margin-bottom: 5px;
+    font-size: 1em;
+}
+
+.timestamp {
+    font-size: 0.8em;
+    color: #999;
 }

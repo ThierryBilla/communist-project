@@ -80,6 +80,7 @@ const MatchTab = ({ onBack }) => {
                     const formattedMatches = matchData.map(data => ({
                         id: data.id,
                         name: data.username,
+                        profilePicture: data.profilePicture || 'https://via.placeholder.com/50'
                     }));
                     console.log('Formatted matches:', formattedMatches);
 
@@ -93,6 +94,7 @@ const MatchTab = ({ onBack }) => {
                                 chatMap.set(sender, {
                                     id: userChat.user.id,
                                     sender,
+                                    profilePicture: userChat.user.profilePicture || 'https://via.placeholder.com/50',
                                     fullMessages: []
                                 });
                             }
@@ -131,6 +133,7 @@ const MatchTab = ({ onBack }) => {
         setActiveChat({
             id: match.id,
             sender: match.name,
+            profilePicture: match.profilePicture
         });
     };
 
@@ -144,7 +147,7 @@ const MatchTab = ({ onBack }) => {
                 <ul className={styles.matchList}>
                     {matches.map(match => (
                         <li key={match.id} className={styles.matchItem} onClick={() => handleMatchClick(match)}>
-                            <div className={styles.imagePlaceholder}></div>
+                            <img src={match.profilePicture} alt={match.name} className={styles.profileImage} />
                             <div className={styles.matchDetails}>
                                 <div className={styles.matchName}>{match.name}</div>
                                 <div className={styles.matchPreview}>Start a conversation</div>

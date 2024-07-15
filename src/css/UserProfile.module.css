@@ -1,0 +1,161 @@
+/* UserProfile.module.css */
+
+.userProfile {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    position: relative;
+    height: 100%; /* Utilisez toute la hauteur du conteneur parent */
+    width: 100%; /* Utilisez toute la largeur du conteneur parent */
+    overflow: hidden;
+}
+
+.backButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2; /* Assurez-vous qu'il soit au-dessus de tout */
+}
+
+.scrollContainer {
+    width: 100%;
+    height: 100%; /* Prendre tout l'espace disponible */
+    overflow-y: auto; /* Permettre le défilement de tout le contenu */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    box-sizing: border-box; /* Inclure le padding dans la hauteur totale */
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.profileImagePlaceholder {
+    width: 100%;
+    height: 300px; /* Ajuster la hauteur si nécessaire */
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Ne pas réduire la taille de l'image */
+    position: relative; /* Pour positionner le bouton retour */
+}
+
+.profileImagePlaceholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box; /* Inclure le padding dans la largeur totale */
+    background-color: #7C2D29;
+    color: white;
+}
+
+.profileName {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.profileDetails {
+    text-align: center;
+    width: 100%;
+}
+
+.profileDetails p {
+    margin: 5px 0;
+    color: white;
+}
+
+.profileDetails h3 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: white;
+    text-align: left; /* Aligner le titre des blogs à gauche */
+}
+
+.profileDetails ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 100px; /* Ajouter un espace en bas pour s'assurer que tout est visible */
+}
+
+.profileDetails ul li {
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+    text-align: left; /* Aligner le texte des blogs à gauche */
+}
+
+.profileDetails ul li:hover {
+    transform: translateY(-1px);
+}
+
+.profileDetails ul li .blogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-radius 0.3s;
+    border-radius: 10px; 
+    background-color: #6C1E19; 
+    color: white;
+}
+
+.profileDetails ul li .blogHeader:hover {
+    background-color: #69231f;
+}
+
+.profileDetails ul li .blogTitle {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.profileDetails ul li .blogContent {
+    padding: 20px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f0f0f0;
+    line-height: 1.6;
+    border-radius: 0 0 10px 10px;
+}
+
+.button {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px !important;
+    margin-bottom: 10px;
+}
+
+.button:hover {
+    background-color: #6C1E19;
+    color: white;
+    border: 1px solid white;
+    font-weight: bold;  
+}
