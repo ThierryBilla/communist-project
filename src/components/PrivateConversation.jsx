@@ -1,28 +1,43 @@
-import React from 'react';
-import styles from '../css/PrivateConversation.module.css';
+import React, { useRef, useEffect } from 'react';
+import styles from '../css/ChatBox.module.css'; // Utilisation des mêmes styles que ChatBox
 
-const PrivateConversation = ({ message }) => {
-    // Example message for testing
-    const exampleMessage = {
-        userName: "John Doe",
-        content: "Hey there! How are you doing?",
-        timestamp: "2024-06-12T08:00:00Z" // Add timestamp property if necessary
-    };
+const PrivateConversation = ({ conversation, onBack, isFromSwiperCard }) => {
+    const messageListRef = useRef(null);
 
-    // Use the message if defined, otherwise use the example message
-    const displayedMessage = message || exampleMessage;
+    useEffect(() => {
+        if (messageListRef.current) {
+            messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+        }
+    }, [conversation]);
 
     return (
-        <div className={styles.conversationContainer}>
-            <h3 className={styles.header}>Conversation with {displayedMessage.userName}</h3>
-            <div className={styles.messagesContainer}>
-                <div className={`${styles.message} ${styles.received}`}>
-                    <p className={styles.messageText}>{displayedMessage.content}</p>
-                    {displayedMessage.timestamp && <span className={styles.timestamp}>{displayedMessage.timestamp}</span>}
+        <div className={styles.chatBox}>
+            <div className={styles.header}>
+                <button className={styles.backButton} onClick={onBack}>
+                    <i className="fas fa-arrow-left"></i>
+                </button>
+                <div className={styles.chatUserInfo}>
+                    <img src={conversation[0]?.sender?.profilePicture || 'https://via.placeholder.com/50'} alt="Profile" className={styles.userImage} />
+                    <div className={styles.userName}>{conversation[0]?.sender?.username}</div>
                 </div>
-                {/* Example of a sent message */}
-                <div className={`${styles.message} ${styles.sent}`}>
-                    <p className={styles.messageText}>I'm doing great, thanks! How about you?</p>
+            </div>
+            <div className={styles.messageListContainer} ref={messageListRef}>
+                <div className={styles.messageList}>
+                    {conversation.length > 0 ? (
+                        conversation.map((msg, index) => {
+                            const isMessageRight = isFromSwiperCard
+                                ? msg.sender.id !== conversation[0].sender.id
+                                : msg.sender.id === conversation[0].sender.id;
+                            const messageClass = isMessageRight ? styles.messageRight : styles.messageLeft;
+                            return (
+                                <div key={index} className={messageClass}>
+                                    {msg.content}
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <p>No conversation found</p>
+                    )}
                 </div>
             </div>
         </div>

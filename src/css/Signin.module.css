@@ -3,117 +3,97 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('../assets/picture/communist-hero.jpg');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    padding: 0 100px; /* Marges de 100px à gauche et à droite */
-    
+    background-image: url('../assets/picture/communist-hero.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    position: relative !important;
+    padding: 0 100px !important; /* Marges de 100px à gauche et à droite */
 }
 
-
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 0, 0, 0.2);
-    z-index: 1;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(255, 0, 0, 0.2) !important;
+    z-index: 1 !important;
 }
 
 .signinForm {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2; 
+    background-color: #fff !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    z-index: 2 !important;
 }
 
 .signinForm h2 {
-    text-align: center;
-    margin-bottom: 20px;
+    text-align: center !important;
+    margin-bottom: 20px !important;
 }
 
 .formGroup {
-    width: 100%;
-    margin-bottom: 15px;
+    width: 100% !important;
+    margin-bottom: 15px !important;
 }
 
 .formGroup label {
-    display: block;
-    margin-bottom: 5px;
+    display: block !important;
+    margin-bottom: 5px !important;
 }
 
 .formGroup input[type="text"],
 .formGroup input[type="password"] {
-    width: 100%; /* Réduire la largeur pour compenser la marge du padding */
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 100% !important; /* Réduire la largeur pour compenser la marge du padding */
+    padding: 10px !important;
+    margin-top: 5px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
 }
 
 .showPasswordContainer {
-    display: flex;
-    justify-content: space-between; /* Aligner les éléments sur les extrémités */
-    align-items: center;
-    width: 100%;
+    display: flex !important;
+    align-items: center !important; /* Aligner les éléments verticalement */
+    margin-top: 10px !important; /* Ajout d'un espace au-dessus de la case à cocher */
 }
 
 .showPasswordCheckbox {
-    display: flex;
-    align-items: center;
-    color: #333333;
-}
-
-.showPasswordCheckbox input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.showPasswordLabel {
-    order: 1; /* Mettre le label "Show password" en premier */
-}
-
-.passwordInput {
-    order: 2; /* Mettre le champ de mot de passe en second */
-}
-
-.usernameInput {
-    order: 3; /* Mettre le champ de nom d'utilisateur en dernier */
+    margin-right: 5px !important; /* Espace entre la case à cocher et le label */
+    width: auto !important; /* Écraser le style général de largeur */
 }
 
 button[type="submit"] {
-    width: calc(100% - 20px); /* Réduire la largeur pour compenser la marge du padding */
-    padding: 10px;
-    background-color: #C0463F;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+    width: calc(100% - 20px) !important; /* Réduire la largeur pour compenser la marge du padding */
+    padding: 10px !important;
+    background-color: #C0463F !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    margin-top: 20px !important;
 }
 
 button[type="submit"]:hover {
-    background-color: #a73b35;
+    background-color: #a73b35 !important;
 }
 
 .registerPrompt {
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 20px !important;
+    text-align: center !important;
 }
 
 .registerPrompt a {
-    color: #C0463F;
-    text-decoration: none;
+    color: #C0463F !important;
+    text-decoration: none !important;
 }
 
 .registerPrompt a:hover {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }

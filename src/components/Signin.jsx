@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import styles from '../css/Signin.module.css';
 import Navbar from './Navbar';
 
 const Signin = () => {
-  const navigate = useNavigate(); // Get the navigate function from react-router-dom
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -89,17 +89,35 @@ const Signin = () => {
           <div className={styles.formGroup}>
             <label>
               Username:
-              <input type="text" name="username" value={formData.username} onChange={handleChange} required />
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className={styles.inputField} // Ajout d'une classe spécifique pour les champs de saisie
+              />
             </label>
             <label>
               Password:
-              <input type={formData.showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} required />
+              <input
+                type={formData.showPassword ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className={styles.inputField} // Ajout d'une classe spécifique pour les champs de saisie
+              />
             </label>
             <div className={styles.showPasswordContainer}>
-              <label>
-                <input type="checkbox" name="showPassword" checked={formData.showPassword} onChange={handleShowPassword} />
-                Show password
-              </label>
+              <input
+                type="checkbox"
+                className={styles.showPasswordCheckbox}
+                name="showPassword"
+                checked={formData.showPassword}
+                onChange={handleShowPassword}
+              />
+              <label className={styles.showPasswordLabel}>Show password</label>
             </div>
           </div>
           <button type="submit">Login</button>

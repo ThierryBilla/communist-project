@@ -1,13 +1,91 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import styles from '../css/ProfileMenu.module.css';
+import ConfirmationModal from './ConfirmationModal';
 
 const ProfileMenu = ({ onSelect }) => {
-  const { logout } = useAuth();
+  const { logout, token } = useAuth();
+  const navigate = useNavigate();
+  const [profileId, setProfileId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      if (token) {
+        try {
+          const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/profile', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setProfileId(data.User.id);
+          } else {
+            console.error('Failed to fetch profile data', response.status);
+          }
+        } catch (error) {
+          console.error('Error fetching profile data:', error);
+        }
+      }
+    };
+
+    fetchProfileData();
+  }, [token]);
 
   const handleLogout = () => {
     logout();
+    navigate('/');
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!profileId) {
+      console.error('Profile ID is not available.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/users/${profileId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        alert('Account deleted successfully.');
+        handleLogout();
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to delete account', response.status, errorData);
+        alert(`Failed to delete account: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      alert('An error occurred while deleting your account.');
+    }
+  };
+
+  const handleClick = (option) => {
+    if (option === 'signout') {
+      handleLogout();
+    } else if (option === 'deleteaccount') {
+      setShowModal(true);
+    } else {
+      onSelect(option);
+    }
+  };
+
+  const handleConfirmDelete = () => {
+    setShowModal(false);
+    handleDeleteAccount();
+  };
+
+  const handleCancelDelete = () => {
+    setShowModal(false);
   };
 
   const menuItems = [
@@ -20,14 +98,6 @@ const ProfileMenu = ({ onSelect }) => {
     { id: 'deleteaccount', label: 'Delete Account', isDelete: true }
   ];
 
-  const handleClick = (option) => {
-    if (option === 'signout') {
-      handleLogout();
-    } else {
-      onSelect(option);
-    }
-  };
-
   return (
     <div className={styles.profileMenu}>
       <h2>Account Settings</h2>
@@ -38,6 +108,12 @@ const ProfileMenu = ({ onSelect }) => {
           </li>
         ))}
       </ul>
+      {showModal && (
+        <ConfirmationModal
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
     </div>
   );
 };

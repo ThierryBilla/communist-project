@@ -82,6 +82,8 @@ const UserProfile = ({ userId, onBack }) => {
                         selectedMessage={null}
                         togglePrivateMessages={handleBackToProfile}
                         setSelectedMessage={() => {}}
+                        userId={userId}
+                        isFromSwiperCard={false} // Indicate that the messages are not viewed from SwiperCard
                     />
                 ) : (
                     <div className={styles.profileInfo}>

@@ -1,20 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaCaretLeft } from 'react-icons/fa6';
 import styles from '../css/PrivateMessageList.module.css';
 import PrivateConversation from './PrivateConversation';
+import { AuthContext } from '../contexts/AuthContext';
 
-const PrivateMessageList = ({ selectedMessage, togglePrivateMessages, setSelectedMessage }) => {
+const PrivateMessageList = ({ selectedMessage, togglePrivateMessages, setSelectedMessage, userId, isFromSwiperCard }) => {
+    const { token } = useContext(AuthContext);
     const [selectedMessageState, setSelectedMessageState] = useState(selectedMessage);
     const [showConversation, setShowConversation] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [conversation, setConversation] = useState([]);
 
     useEffect(() => {
         setSelectedMessageState(selectedMessage);
-    }, [selectedMessage]);
+        if (userId) {
+            fetchMessages(userId);
+        }
+    }, [selectedMessage, userId]);
 
-    const handleSelectMessage = (message) => {
-        setSelectedMessage(message);
-        setSelectedMessageState(message);
+    const fetchMessages = async (userId) => {
+        try {
+            console.log(`Fetching messages for user ID: ${userId}`); // Log the userId
+            const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/chat/spyChat/${userId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log('Response status:', response.status); // Log response status
+            if (response.ok) {
+                const data = await response.json();
+                const filteredData = data.filter(messageGroup => messageGroup.user.id !== userId); // Filtrer les messages où la personne a déjà une conversation avec moi
+                setMessages(filteredData);
+                console.log('Fetched and filtered messages:', filteredData); // Log the JSON object to understand its structure
+            } else {
+                console.error('Failed to fetch messages:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    };
+
+    const fetchConversation = async (profileId, otherUserId) => {
+        try {
+            console.log(`Fetching conversation between user ID: ${profileId} and ${otherUserId}`); // Log the userId
+            const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/chat/spyHistory/${profileId}&${otherUserId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log('Response status:', response.status); // Log response status
+            if (response.ok) {
+                const data = await response.json();
+                setConversation(data);
+                console.log('Fetched conversation:', data); // Log the JSON object to understand its structure
+            } else {
+                console.error('Failed to fetch conversation:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching conversation:', error);
+        }
+    };
+
+    const handleSelectMessage = (chats, otherUserId) => {
+        fetchConversation(userId, otherUserId); // Fetch conversation when a message is selected
+        setSelectedMessage(chats);
+        setSelectedMessageState(chats);
         setShowConversation(true);
+        console.log('Selected message:', chats); // Log selected message to verify its content
     };
 
     const handleBackToMessages = () => {
@@ -24,7 +80,11 @@ const PrivateMessageList = ({ selectedMessage, togglePrivateMessages, setSelecte
     return (
         <div className={styles.privateMessageList}>
             {showConversation ? (
-                <PrivateConversation message={selectedMessageState} />
+                <PrivateConversation
+                    conversation={conversation}
+                    onBack={handleBackToMessages}
+                    isFromSwiperCard={isFromSwiperCard}
+                />
             ) : (
                 <>
                     <div className={styles.headerContainer}>
@@ -34,24 +94,23 @@ const PrivateMessageList = ({ selectedMessage, togglePrivateMessages, setSelecte
                         <h3 className={styles.header}>Private Messages</h3>
                     </div>
                     <ul className={styles.messageList}>
-                        {Array.from({ length: 10 }, (_, index) => (
-                            <li
-                                key={index}
-                                className={styles.messageItem}
-                                onClick={() => handleSelectMessage({
-                                    userName: `User ${index + 1}`,
-                                    content: `Message content ${index + 1}`,
-                                    timestamp: new Date().toISOString(),
-                                    profilePicture: `https://example.com/profile/${index + 1}.jpg`, // Add profile picture URL
-                                })}
-                            >
-                                <img src={`https://example.com/profile/${index + 1}.jpg`} alt={`User ${index + 1}`} className={styles.profileImage} />
-                                <div className={styles.messageInfo}>
-                                    <div className={styles.sender}>User {index + 1}</div>
-                                    <div className={styles.preview}>Preview of the last message...</div>
-                                </div>
-                            </li>
-                        ))}
+                        {messages.length > 0 ? (
+                            messages.map((messageGroup, index) => (
+                                <li
+                                    key={index}
+                                    className={styles.messageItem}
+                                    onClick={() => handleSelectMessage(messageGroup.chats, messageGroup.user.id)}
+                                >
+                                    <img src={messageGroup.user.profilePicture} alt={messageGroup.user.username} className={styles.profileImage} />
+                                    <div className={styles.messageInfo}>
+                                        <div className={styles.sender}>{messageGroup.user.username}</div>
+                                        <div className={styles.preview}>Click to view conversation</div>
+                                    </div>
+                                </li>
+                            ))
+                        ) : (
+                            <p>No messages found</p>
+                        )}
                     </ul>
                 </>
             )}

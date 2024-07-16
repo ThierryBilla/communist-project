@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import styles from '../css/SwiperCard.module.css';
 import PrivateMessageList from './PrivateMessageList';
+import MatchModal from './MatchModal';
 import { AuthContext } from '../contexts/AuthContext';
 
 const SwiperCard = () => {
@@ -13,10 +14,38 @@ const SwiperCard = () => {
     const [showPrivateMessages, setShowPrivateMessages] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [expandedTopic, setExpandedTopic] = useState(null);
+    const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
+    const [matchedUser, setMatchedUser] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
+        fetchUserProfile();
         fetchRandomProfiles();
     }, []);
+
+    const fetchUserProfile = async () => {
+        if (token) {
+            try {
+                const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/profile', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    if (userData && userData.User && userData.User.id) {
+                        setUserId(userData.User.id);
+                    }
+                } else {
+                    console.error('Failed to fetch user profile:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            }
+        }
+    };
 
     const fetchRandomProfiles = async () => {
         try {
@@ -38,7 +67,7 @@ const SwiperCard = () => {
                     location: `${data.city}, ${data.countryOfResidence}`,
                     politicalBelief: data.politicalBelief,
                     communismLevel: data.communismLevel,
-                    profilePicture: data.profilePicture || 'placeholder.jpg', // Include profilePicture
+                    profilePicture: data.profilePicture || 'placeholder.jpg',
                     topics: [
                         { id: 1, title: 'How I met our leader Pietro?', content: 'Content of Topic 1' },
                         { id: 2, title: 'Ive been converted to Stalinism', content: 'Content of Topic 2' },
@@ -70,11 +99,42 @@ const SwiperCard = () => {
                 body: JSON.stringify(likedUser)
             });
 
-            if (!response.ok) {
+            if (response.ok) {
+                console.log('Like sent successfully');
+            } else {
                 console.error('Failed to send like');
             }
         } catch (error) {
             console.error('Error sending like:', error);
+        }
+    };
+
+    const checkForMatch = async () => {
+        if (userId && token) {
+            try {
+                const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/likes/matches/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const matchData = await response.json();
+                    console.log('Match data:', matchData);
+                    const matchedProfile = matchData.find(match => match.id === profiles[index].id);
+                    console.log('Matched profile:', matchedProfile);
+                    if (matchedProfile) {
+                        setMatchedUser(matchedProfile);
+                        console.log('Setting matched user:', matchedProfile.username); // Log supplémentaire
+                        setIsMatchModalOpen(true);
+                    }
+                } else {
+                    console.error('Failed to fetch matches:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching matches:', error);
+            }
         }
     };
 
@@ -88,6 +148,7 @@ const SwiperCard = () => {
             updatedProfiles[index].liked = true;
             likedUser = { likedUser: updatedProfiles[index].id, like: true };
             await sendLike(likedUser);
+            await checkForMatch();
             setTimeout(() => {
                 setLiked(false);
                 moveToNextProfile();
@@ -164,6 +225,7 @@ const SwiperCard = () => {
                                     selectedMessage={selectedMessage} 
                                     togglePrivateMessages={togglePrivateMessages} 
                                     setSelectedMessage={setSelectedMessage} 
+                                    userId={profile.id} // Pass userId to fetch messages
                                 />
                             ) : (
                                 <div className={`${styles.scrollableInfo} ${styles.hideScrollbar}`}>
@@ -173,7 +235,7 @@ const SwiperCard = () => {
                                     <p className={styles.communismLevel}><strong>Communism Level:</strong> {renderStars(profile.communismLevel)}</p>
                                     <p className={styles.partnerShare}><strong>Partner Share:</strong> {renderPartnerShare(profile.partnerShare)}</p>
                                     <button className={styles.button} onClick={() => togglePrivateMessages(profile)}>Watch his private messages</button>
-                                    <h3 className={styles.topicHeader}>{profile.name}'s blogs   :</h3>
+                                    <h3 className={styles.topicHeader}>{profile.name}'s blogs:</h3>
                                     <ul className={styles.blogList}>
                                         {profile.topics.map((topic, index) => (
                                             <li key={index} className={styles.blogItem}>
@@ -194,6 +256,7 @@ const SwiperCard = () => {
                     </div>
                 ))}
             </div>
+            <MatchModal isOpen={isMatchModalOpen} onClose={() => setIsMatchModalOpen(false)} matchedUser={matchedUser} />
         </div>
     );
 };
