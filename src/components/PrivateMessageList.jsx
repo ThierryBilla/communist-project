@@ -31,9 +31,8 @@ const PrivateMessageList = ({ selectedMessage, togglePrivateMessages, setSelecte
             console.log('Response status:', response.status); // Log response status
             if (response.ok) {
                 const data = await response.json();
-                const filteredData = data.filter(messageGroup => messageGroup.user.id !== userId); // Filtrer les messages où la personne a déjà une conversation avec moi
-                setMessages(filteredData);
-                console.log('Fetched and filtered messages:', filteredData); // Log the JSON object to understand its structure
+                setMessages(data);
+                console.log('Fetched messages:', data); // Log the JSON object to understand its structure
             } else {
                 console.error('Failed to fetch messages:', response.status, response.statusText);
             }

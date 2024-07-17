@@ -55,4 +55,31 @@
     color: white;
     font-size: 1.2rem;
   }
-  
+
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .quoteContainer {
+      font-size: 2rem;
+  }
+
+  .footerLink {
+      font-size: 1.5rem;
+      margin-left: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .quoteContainer {
+      font-size: 1.5rem;
+  }
+
+  .footerLink {
+      font-size: 1.2rem;
+      margin-left: 30px;
+  }
+
+  .copyrightContainer {
+      font-size: 1rem;
+  }
+}

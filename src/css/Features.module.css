@@ -77,3 +77,55 @@
   line-height: 1.5; /* Augmente l'interligne */
   text-align: justify; /* Justifie le texte du paragraphe */
 }
+
+
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .feature {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+
+  .feature-left .placeholder,
+  .feature-right .placeholder {
+      margin: 0 0 20px 0;
+  }
+
+  .placeholder {
+      width: 80%;
+      height: auto;
+  }
+
+  .text {
+      width: 100%;
+  }
+
+  .text h3 {
+      font-size: 20px;
+  }
+
+  .text p {
+      font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .features h2 {
+      font-size: 36px;
+      text-align: center;
+  }
+
+  .placeholder {
+      width: 100%;
+  }
+
+  .text h3 {
+      font-size: 18px;
+  }
+
+  .text p {
+      font-size: 14px;
+  }
+}

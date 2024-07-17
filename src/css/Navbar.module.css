@@ -1,12 +1,10 @@
-/* Navbar.module.css */
-
 .navbar {
     background-color: #7C2D29;
     height: 10vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 100px;
+    padding: 0 50px; /* Ajuster le padding pour un espacement uniforme */
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -15,19 +13,23 @@
 }
 
 .logo-image {
-    width: 40%; /* Ajustez la taille selon vos besoins */
-    height: auto;
+    max-height: 8vh;
+    width: auto;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    white-space: nowrap; /* Prevent line breaks */
+    margin-left: auto; /* Pushes links to the right */
 }
 
 .nav-link {
     margin-right: 20px;
     text-decoration: none;
     color: white;
+    white-space: nowrap; /* Prevent line breaks */
 }
 
 .nav-link:hover {
@@ -35,5 +37,77 @@
 }
 
 .nav-link + .nav-link {
-    margin-left: 50px; /* Ajoutez un espace de 20px entre les liens */
+    margin-left: 50px; /* Ajoutez un espace de 50px entre les liens */
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .logo-image {
+        max-height: 7vh;
+    }
+
+    .nav-link {
+        margin-right: 15px;
+        margin-left: 15px; /* Ajuster les marges pour les tablettes */
+    }
+
+    .nav-links {
+        flex-wrap: nowrap; /* Prevent wrapping on tablets */
+    }
+}
+
+@media (max-width: 768px) { /* Adjust for iPad Mini and smaller */
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .nav-links {
+        display: none; /* Cachez les liens de navigation sur petit écran */
+        flex-direction: column;
+        align-items: center; /* Center the links horizontally */
+        justify-content: center; /* Center the links vertically */
+        width: 100%;
+        text-align: center;
+        background-color: #7C2D29;
+        position: absolute;
+        top: 10vh;
+        left: 0;
+        right: 0;
+        z-index: 999;
+    }
+
+    .nav-link {
+        margin: 10px 0;
+    }
+
+    .nav-link + .nav-link {
+        margin-left: 0; /* Remove the left margin on mobile */
+    }
+
+    .logo-image {
+        max-height: 6vh;
+    }
+
+    .menu-burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    .menu-burger div {
+        width: 30px;
+        height: 3px;
+        background-color: white;
+    }
+}
+
+.menu-active {
+    display: flex !important;
 }
