@@ -91,7 +91,7 @@ const UserProfile = ({ userId, onBack }) => {
                             {userProfile.username}, {userProfile.age}
                         </div>
                         <div className={styles.profileDetails}>
-                            <p>{userProfile.biography}</p>
+                            <p>{userProfile.description}</p>
                             <p><strong>Location:</strong> {userProfile.city}, {userProfile.countryOfResidence}</p>
                             <p><strong>Political Belief:</strong> {userProfile.politicalBelief}</p>
                             <p><strong>Communism Level:</strong> {userProfile.communismLevel}</p>

@@ -63,7 +63,7 @@ const SwiperCard = () => {
                     name: data.username,
                     age: data.age,
                     partnerShare: data.partnerShare,
-                    description: data.biography || 'No biography available.',
+                    description: data.description || 'No biography available.',
                     location: `${data.city}, ${data.countryOfResidence}`,
                     politicalBelief: data.politicalBelief,
                     communismLevel: data.communismLevel,

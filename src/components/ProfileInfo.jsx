@@ -30,8 +30,21 @@ const ProfileInfo = () => {
 
                     if (response.ok) {
                         const data = await response.json();
+                        console.log('Fetched profile data:', data); // Log the fetched data
+
                         if (data && data.User && data.User.id) {
                             setUserId(data.User.id);
+                            setProfileData(prevData => ({
+                                ...prevData,
+                                description: data.User.description || '',
+                                gender: data.User.gender || '',
+                                country: data.User.countryOfResidence || '', // Adjusted key name for country
+                                city: data.User.city || '',
+                                language: data.User.language || '',
+                                partnerShare: data.User.partnerShare || false,
+                                politicalBelief: data.User.politicalBelief || '',
+                                communismLevel: data.User.communismLevel || '1'
+                            }));
                         } else {
                             console.error('Invalid profile data structure:', data);
                         }
@@ -155,6 +168,7 @@ const ProfileInfo = () => {
         console.log('User ID:', userId);
 
         await Promise.all([updateProfileInfo(), uploadProfilePicture()]);
+        // Refresh the page after updating the profile
         window.location.reload();
     };
 
