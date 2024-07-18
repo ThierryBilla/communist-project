@@ -34,17 +34,25 @@ const ProfileInfo = () => {
 
                         if (data && data.User && data.User.id) {
                             setUserId(data.User.id);
-                            setProfileData(prevData => ({
-                                ...prevData,
-                                description: data.User.description || '',
-                                gender: data.User.gender || '',
-                                country: data.User.countryOfResidence || '', // Adjusted key name for country
-                                city: data.User.city || '',
-                                language: data.User.language || '',
-                                partnerShare: data.User.partnerShare || false,
-                                politicalBelief: data.User.politicalBelief || '',
-                                communismLevel: data.User.communismLevel || '1'
-                            }));
+                            setProfileData(prevData => {
+                                const updatedData = {
+                                    ...prevData,
+                                    description: data.User.description || '',
+                                    gender: data.User.gender || '',
+                                    country: data.User.countryOfResidence || '', // Adjusted key name for country
+                                    city: data.User.city || '',
+                                    language: data.User.language || '',
+                                    partnerShare: data.User.partnerShare || false,
+                                    politicalBelief: data.User.politicalBelief || '',
+                                    communismLevel: data.User.communismLevel || '1'
+                                };
+
+                                if (data.User.politicalBelief === 'non communist') {
+                                    updatedData.communismLevel = '0';
+                                }
+
+                                return updatedData;
+                            });
                         } else {
                             console.error('Invalid profile data structure:', data);
                         }
@@ -69,6 +77,7 @@ const ProfileInfo = () => {
             [name]: newValue
         };
 
+        // Ajouter une condition pour définir communismLevel sur "0" lorsque politicalBelief est "non communist"
         if (name === 'politicalBelief' && value === 'non communist') {
             updatedData = {
                 ...updatedData,
@@ -91,6 +100,14 @@ const ProfileInfo = () => {
 
         // Convert partnerShare to boolean if it's a string
         profileInfo.partnerShare = profileInfo.partnerShare === 'true' || profileInfo.partnerShare === true;
+
+        // Ensure communismLevel is an integer
+        profileInfo.communismLevel = parseInt(profileInfo.communismLevel);
+
+        // Ensure communismLevel is 0 if politicalBelief is non communist
+        if (profileInfo.politicalBelief === 'non communist') {
+            profileInfo.communismLevel = 0;
+        }
 
         console.log('Updating profile info with:', profileInfo); // Log the data being sent
         try {
