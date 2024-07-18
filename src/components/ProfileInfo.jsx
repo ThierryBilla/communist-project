@@ -66,12 +66,49 @@ const ProfileInfo = () => {
         setProfileData(updatedData);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        console.log('Profile data:', profileData);
-        console.log('User ID:', userId);
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfileData({ ...profileData, profilePicture: file });
+        }
+    };
 
+    const updateProfileInfo = async () => {
+        const { profilePicture, ...profileInfo } = profileData;
+
+        // Convert partnerShare to boolean if it's a string
+        profileInfo.partnerShare = profileInfo.partnerShare === 'true' || profileInfo.partnerShare === true;
+
+        console.log('Updating profile info with:', profileInfo); // Log the data being sent
+        try {
+            const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(profileInfo)
+            });
+
+            if (response.ok) {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    console.log('Profile info updated successfully:', data);
+                } else {
+                    const textData = await response.text();
+                    console.log('Profile info updated successfully:', textData);
+                }
+            } else {
+                const errorText = await response.text();
+                console.error('Failed to update profile info:', errorText);
+            }
+        } catch (error) {
+            console.error('Error updating profile info:', error);
+        }
+    };
+
+    const uploadProfilePicture = async () => {
         if (profileData.profilePicture && userId) {
             const formData = new FormData();
             formData.append('profilePicture', profileData.profilePicture);
@@ -111,11 +148,14 @@ const ProfileInfo = () => {
         }
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setProfileData({ ...profileData, profilePicture: file });
-        }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        console.log('Profile data:', profileData);
+        console.log('User ID:', userId);
+
+        await Promise.all([updateProfileInfo(), uploadProfilePicture()]);
+        window.location.reload();
     };
 
     const grades = [

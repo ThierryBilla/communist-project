@@ -71,7 +71,7 @@ const Profile = ({ selectedOption }) => {
             <div className={styles.textDetails}>
               <p><strong className={styles.fieldName}>Username:</strong> {profileData.username}</p>
               <p><strong className={styles.fieldName}>Age:</strong> {profileData.age}</p>
-              <p><strong className={styles.fieldName}>Description:</strong> {profileData.biography || 'No description available'}</p>
+              <p><strong className={styles.fieldName}>Description:</strong> {profileData.description || 'No description available'}</p>
               <p><strong className={styles.fieldName}>Gender:</strong> {profileData.gender}</p>
               <p><strong className={styles.fieldName}>Country:</strong> {profileData.countryOfResidence}</p>
               <p><strong className={styles.fieldName}>City:</strong> {profileData.city}</p>
