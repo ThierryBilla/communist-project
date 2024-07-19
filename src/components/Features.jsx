@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../css/Features.module.css';
 import snoopimg from '../assets/picture/snoop-phone-bw.png';
 import shareimg from '../assets/picture/sharing-partner-bw.png';
-import loveimg from  '../assets/picture/love-bw.png';
+import loveimg from '../assets/picture/love-bw.png';
 
 function Features() {
   return (

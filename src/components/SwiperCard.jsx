@@ -47,6 +47,28 @@ const SwiperCard = () => {
         }
     };
 
+    const fetchUserBlogs = async (userId) => {
+        try {
+            const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/posts/${userId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                console.error('Failed to fetch user blogs');
+                return [];
+            }
+        } catch (error) {
+            console.error('Error fetching user blogs:', error);
+            return [];
+        }
+    };
+
     const fetchRandomProfiles = async () => {
         try {
             const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/random', {
@@ -58,6 +80,8 @@ const SwiperCard = () => {
 
             if (response.ok) {
                 const data = await response.json();
+                const blogs = await fetchUserBlogs(data.id); // Fetch blogs for the user
+
                 const newProfile = {
                     id: data.id,
                     name: data.username,
@@ -68,14 +92,7 @@ const SwiperCard = () => {
                     politicalBelief: data.politicalBelief,
                     communismLevel: data.communismLevel,
                     profilePicture: data.profilePicture || 'placeholder.jpg',
-                    topics: [
-                        { id: 1, title: 'How I met our leader Pietro?', content: 'Content of Topic 1' },
-                        { id: 2, title: 'Ive been converted to Stalinism', content: 'Content of Topic 2' },
-                        { id: 3, title: 'Topic 3', content: 'Content of Topic 3' },
-                        { id: 4, title: 'Topic 4', content: 'Content of Topic 4' },
-                        { id: 5, title: 'Topic 5', content: 'Content of Topic 5' },
-                        { id: 6, title: 'Topic 6', content: 'Content of Topic 6' }
-                    ],
+                    topics: blogs, // Set the fetched blogs here
                     liked: false
                 };
                 setProfiles(prevProfiles => [...prevProfiles, newProfile]);

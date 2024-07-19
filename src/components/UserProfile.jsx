@@ -8,6 +8,7 @@ const UserProfile = ({ userId, onBack }) => {
     const [userProfile, setUserProfile] = useState(null);
     const [showPrivateMessages, setShowPrivateMessages] = useState(false);
     const [expandedTopic, setExpandedTopic] = useState(null);
+    const [userBlogs, setUserBlogs] = useState([]);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -22,15 +23,6 @@ const UserProfile = ({ userId, onBack }) => {
 
                     if (response.ok) {
                         const data = await response.json();
-                        // Hard-coded topics data
-                        data.topics = [
-                            { id: 1, title: 'How I met our leader Pietro?', content: 'Content of Topic 1' },
-                            { id: 2, title: 'Ive been converted to Stalinism', content: 'Content of Topic 2' },
-                            { id: 3, title: 'Topic 3', content: 'Content of Topic 3' },
-                            { id: 4, title: 'Topic 4', content: 'Content of Topic 4' },
-                            { id: 5, title: 'Topic 5', content: 'Content of Topic 5' },
-                            { id: 6, title: 'Topic 6', content: 'Content of Topic 6' }
-                        ];
                         setUserProfile(data);
                     } else {
                         console.error('Failed to fetch user profile');
@@ -41,7 +33,30 @@ const UserProfile = ({ userId, onBack }) => {
             }
         };
 
+        const fetchUserBlogs = async () => {
+            if (token && userId) {
+                try {
+                    const response = await fetch(`https://communistdate-0f582f5caf12.herokuapp.com/posts/${userId}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setUserBlogs(data);
+                    } else {
+                        console.error('Failed to fetch user blogs');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user blogs:', error);
+                }
+            }
+        };
+
         fetchUserProfile();
+        fetchUserBlogs();
     }, [userId, token]);
 
     const toggleExpandTopic = (id) => {
@@ -99,14 +114,14 @@ const UserProfile = ({ userId, onBack }) => {
                             <button className={styles.button} onClick={handleShowPrivateMessages}>Watch his private messages</button>
                             <h3>{userProfile.username}'s blogs:</h3>
                             <ul>
-                                {userProfile.topics.map((topic, index) => (
+                                {userBlogs.map((blog, index) => (
                                     <li key={index}>
                                         <div className={styles.blogHeader} onClick={() => toggleExpandTopic(index)}>
-                                            <div className={styles.blogTitle}>{topic.title}</div>
+                                            <div className={styles.blogTitle}>{blog.title}</div>
                                         </div>
                                         {expandedTopic === index && (
                                             <div className={styles.blogContent}>
-                                                {topic.content}
+                                                {blog.content}
                                             </div>
                                         )}
                                     </li>

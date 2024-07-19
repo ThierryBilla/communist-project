@@ -40,24 +40,22 @@
   background-color: #630c03;
   border-radius: 4px;
   overflow: hidden; /* Cache l'image qui dépasse */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .placeholder img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centrer l'image */
   max-width: 100%;
   max-height: 100%;
-  z-index: 1;
 }
 
 .loveimgPlaceholder img {
-  transform: translate(-50%, -30%) scale(1.90); /* Augmente légèrement la taille de l'image loveimg */
+  transform: scale(1.35); /* Harmonise la mise à l'échelle avec les autres images */
 }
 
 .placeholder.shareimg img {
-  transform: translate(-50%, -50%) scale(1.35); /* Applique un effet de mise à l'échelle uniquement à shareimg */
+  transform: scale(1.35); /* Applique un effet de mise à l'échelle uniquement à shareimg */
 }
 
 .text {
@@ -78,54 +76,80 @@
   text-align: justify; /* Justifie le texte du paragraphe */
 }
 
-
-
 /* Media Queries */
 @media (max-width: 1024px) {
   .feature {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .feature .text {
+    order: 1;
+  }
+
+  .feature .placeholder {
+    order: 2;
+    margin-top: 20px; /* Ajoute de la marge en haut pour séparer les images et le texte */
+    width: 100%;
+    height: auto;
   }
 
   .feature-left .placeholder,
   .feature-right .placeholder {
-      margin: 0 0 20px 0;
-  }
-
-  .placeholder {
-      width: 80%;
-      height: auto;
+    margin: 0;
   }
 
   .text {
-      width: 100%;
+    width: 100%;
   }
 
   .text h3 {
-      font-size: 20px;
+    font-size: 20px;
   }
 
   .text p {
-      font-size: 16px;
+    font-size: 16px;
   }
 }
 
 @media (max-width: 600px) {
   .features h2 {
-      font-size: 36px;
-      text-align: center;
+    font-size: 36px;
+    text-align: center;
   }
 
-  .placeholder {
-      width: 100%;
+  .feature {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .feature .text {
+    order: 1;
+  }
+
+  .feature .placeholder {
+    order: 2;
+    margin-top: 20px; /* Ajoute de la marge en haut pour séparer les images et le texte */
+    width: 100%;
+    height: auto;
+  }
+
+  .feature-left .placeholder,
+  .feature-right .placeholder {
+    margin: 0;
+  }
+
+  .text {
+    width: 100%;
   }
 
   .text h3 {
-      font-size: 18px;
+    font-size: 18px;
   }
 
   .text p {
-      font-size: 14px;
+    font-size: 14px;
   }
 }
