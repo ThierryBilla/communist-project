@@ -162,9 +162,9 @@ const Signup = () => {
                             Gender:
                             <select name="gender" value={formData.gender} onChange={handleChange}>
                                 <option value="" disabled>Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
                             </select>
                         </label>
                         <label>
@@ -180,19 +180,19 @@ const Signup = () => {
                             Political Belief:
                             <select name="politicalBelief" value={formData.politicalBelief} onChange={handleChange}>
                                 <option value="" disabled>Select a belief</option>
-                                <option value="non communist">Non communist</option>
-                                <option value="communist">Communist</option>
-                                <option value="eurocommunist">Eurocommunist</option>
-                                <option value="socialist">Socialist</option>
-                                <option value="revolutionary_syndicalist">Revolutionary Syndicalist</option>
-                                <option value="anarchist">Anarchist</option>
-                                <option value="marxist">Marxist</option>
-                                <option value="leninist">Leninist</option>
-                                <option value="maoist">Maoist</option>
-                                <option value="stalinist">Stalinist</option>
-                                <option value="trotskyist">Trotskyist</option>
-                                <option value="castroist">Castroist</option>
-                                <option value="guevarist">Guevarist</option>
+                                <option value="Non communist">Non communist</option>
+                                <option value="Communist">Communist</option>
+                                <option value="Eurocommunist">Eurocommunist</option>
+                                <option value="Socialist">Socialist</option>
+                                <option value="Revolutionary syndicalist">Revolutionary Syndicalist</option>
+                                <option value="Anarchist">Anarchist</option>
+                                <option value="Marxist">Marxist</option>
+                                <option value="Leninist">Leninist</option>
+                                <option value="Maoist">Maoist</option>
+                                <option value="Stalinist">Stalinist</option>
+                                <option value="Trotskyist">Trotskyist</option>
+                                <option value="Castroist">Castroist</option>
+                                <option value="Guevarist">Guevarist</option>
                             </select>
                         </label>
                     </div>
