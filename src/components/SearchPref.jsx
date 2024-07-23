@@ -56,7 +56,6 @@ const SearchPref = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Inclure tous les champs même s'ils sont vides
         const preferences = {
             minAge: searchData.ageRange[0],
             maxAge: searchData.ageRange[1],
@@ -64,8 +63,6 @@ const SearchPref = () => {
             gender: searchData.gender,
             partnerShare: searchData.partnerShare
         };
-
-        console.log('Preferences to be sent:', preferences);
 
         try {
             const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/preferences', {
@@ -155,15 +152,13 @@ const SearchPref = () => {
                             </select>
                         </label>
                     </div>
-                </div>
-                <div className={styles.formRow}>
                     <div className={styles.formGroup}>
                         <label>
                             Partner Share:
                             <select name="partnerShare" value={searchData.partnerShare !== '' ? searchData.partnerShare : ''} onChange={handleChange}>
                                 <option value="">No preferences</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
                             </select>
                         </label>
                     </div>

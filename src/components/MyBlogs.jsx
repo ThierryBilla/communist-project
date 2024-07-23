@@ -246,7 +246,7 @@ const MyBlogs = () => {
               placeholder="Content"
             />
             <div className={styles.formActions}>
-              <button type="submit" className={`${styles.button} ${styles.submitButton}`}>Add</button>
+              <button type="submit" className={`${styles.button} ${styles.submitButton} ${styles.addSubmitButton}`}>Add</button>
               <button type="button" className={`${styles.button} ${styles.cancelButton}`} onClick={() => setIsFormVisible(false)}>Cancel</button>
             </div>
           </form>
