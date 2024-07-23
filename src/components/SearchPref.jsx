@@ -1,51 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../css/SearchPref.module.css';
+import { useAuth } from '../contexts/AuthContext';
 
 const SearchPref = () => {
     const [searchData, setSearchData] = useState({
-        ageRange: [20, 40],
+        ageRange: [25, 35],
         gender: '',
         politicalBelief: '',
-        communismLevel: '1',
-        country: '',
-        city: '',
-        language: '',
-        partnerShare: false
+        partnerShare: ''
     });
+    const [loading, setLoading] = useState(true);
+    const { token } = useAuth();
+
+    useEffect(() => {
+        const fetchPreferences = async () => {
+            try {
+                const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/preferences', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setSearchData({
+                        ageRange: [data.minAge ?? 25, data.maxAge ?? 35],
+                        gender: data.gender ?? '',
+                        politicalBelief: data.politicalBelief ?? '',
+                        partnerShare: data.partnerShare ?? ''
+                    });
+                } else {
+                    console.error('Failed to fetch preferences');
+                }
+            } catch (error) {
+                console.error('Error fetching preferences:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPreferences();
+    }, [token]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        const newValue = type === 'checkbox' ? checked : type === 'range' ? parseInt(value) : value;
-
-        let updatedData = {
+        const newValue = type === 'checkbox' ? checked : value;
+        
+        setSearchData({
             ...searchData,
             [name]: newValue
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Inclure tous les champs même s'ils sont vides
+        const preferences = {
+            minAge: searchData.ageRange[0],
+            maxAge: searchData.ageRange[1],
+            politicalBelief: searchData.politicalBelief,
+            gender: searchData.gender,
+            partnerShare: searchData.partnerShare
         };
 
-        if (name === 'politicalBelief' && value === 'non communist') {
-            updatedData = {
-                ...updatedData,
-                communismLevel: '0'
-            };
+        console.log('Preferences to be sent:', preferences);
+
+        try {
+            const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/preferences', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(preferences)
+            });
+
+            if (response.ok) {
+                console.log('Preferences updated successfully');
+            } else {
+                console.error('Failed to update preferences');
+            }
+        } catch (error) {
+            console.error('Error updating preferences:', error);
         }
-
-        setSearchData(updatedData);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Search preferences:', searchData);
-    };
-
-    const grades = [
-        { grade: "Bourgeois Bypasser", value: 1 },
-        { grade: "Pinkie Dabbler", value: 2 },
-        { grade: "Marxist Muddler", value: 3 },
-        { grade: "Bolshevik Buddy", value: 4 },
-        { grade: "Red Revolutionist", value: 5 }
-    ];
-
-    const shouldDisplaySlider = searchData.politicalBelief !== 'non communist' && searchData.politicalBelief !== '';
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className={styles.searchPrefContainer}>
@@ -56,20 +100,33 @@ const SearchPref = () => {
                         <label>
                             Age Range:
                             <div className={styles.ageRange}>
-                                <input type="number" name="ageMin" value={searchData.ageRange[0]} onChange={(e) => setSearchData({ ...searchData, ageRange: [parseInt(e.target.value), searchData.ageRange[1]] })} min="18" />
+                                <input 
+                                    type="number" 
+                                    name="ageMin" 
+                                    value={searchData.ageRange[0] || ''} 
+                                    onChange={(e) => setSearchData({ ...searchData, ageRange: [parseInt(e.target.value), searchData.ageRange[1]] })} 
+                                    min="18" 
+                                />
                                 <span>-</span>
-                                <input type="number" name="ageMax" value={searchData.ageRange[1]} onChange={(e) => setSearchData({ ...searchData, ageRange: [searchData.ageRange[0], parseInt(e.target.value)] })} max="100" />
+                                <input 
+                                    type="number" 
+                                    name="ageMax" 
+                                    value={searchData.ageRange[1] || ''} 
+                                    onChange={(e) => setSearchData({ ...searchData, ageRange: [searchData.ageRange[0], parseInt(e.target.value)] })} 
+                                    max="100" 
+                                />
                             </div>
                         </label>
                     </div>
                     <div className={styles.formGroup}>
                         <label>
                             Gender:
-                            <select name="gender" value={searchData.gender} onChange={handleChange}>
+                            <select name="gender" value={searchData.gender || ''} onChange={handleChange}>
                                 <option value="" disabled>Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                                <option value="">No preferences</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
                             </select>
                         </label>
                     </div>
@@ -78,61 +135,33 @@ const SearchPref = () => {
                     <div className={styles.formGroup}>
                         <label>
                             Political Belief:
-                            <select name="politicalBelief" value={searchData.politicalBelief} onChange={handleChange}>
+                            <select name="politicalBelief" value={searchData.politicalBelief || ''} onChange={handleChange}>
                                 <option value="" disabled>Select a belief</option>
-                                <option value="non communist">Non communist</option>
-                                <option value="communist">Communist</option>
-                                <option value="eurocommunist">Eurocommunist</option>
-                                <option value="socialist">Socialist</option>
-                                <option value="revolutionary_syndicalist">Revolutionary Syndicalist</option>
-                                <option value="anarchist">Anarchist</option>
-                                <option value="marxist">Marxist</option>
-                                <option value="leninist">Leninist</option>
-                                <option value="maoist">Maoist</option>
-                                <option value="stalinist">Stalinist</option>
-                                <option value="trotskyist">Trotskyist</option>
-                                <option value="castroist">Castroist</option>
-                                <option value="guevarist">Guevarist</option>
+                                <option value="">No preferences</option>
+                                <option value="Non Communist">Non communist</option>
+                                <option value="Communist">Communist</option>
+                                <option value="Eurocommunist">Eurocommunist</option>
+                                <option value="Socialist">Socialist</option>
+                                <option value="Mélanchonist">Mélanchonist</option>
+                                <option value="Revolutionary Syndicalist">Revolutionary Syndicalist</option>
+                                <option value="Anarchist">Anarchist</option>
+                                <option value="Marxist">Marxist</option>
+                                <option value="Leninist">Leninist</option>
+                                <option value="Maoist">Maoist</option>
+                                <option value="Stalinist">Stalinist</option>
+                                <option value="Trotskyist">Trotskyist</option>
+                                <option value="Castroist">Castroist</option>
+                                <option value="Guevarist">Guevarist</option>
                             </select>
                         </label>
                     </div>
-                    {shouldDisplaySlider && (
-                        <div className={styles.formGroup}>
-                            <label>
-                                Level of Communism:
-                                <span className={styles.levelDisplay}>
-                                    {grades[searchData.communismLevel - 1]?.grade || ""}
-                                </span>
-                                <input type="range" name="communismLevel" value={parseInt(searchData.communismLevel)} onChange={handleChange} min="1" max="5" />
-                            </label>
-                        </div>
-                    )}
                 </div>
                 <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                        <label>
-                            Country:
-                            <input type="text" name="country" value={searchData.country} onChange={handleChange} />
-                        </label>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>
-                            City:
-                            <input type="text" name="city" value={searchData.city} onChange={handleChange} />
-                        </label>
-                    </div>
-                </div>
-                <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                        <label>
-                            Language:
-                            <input type="text" name="language" value={searchData.language} onChange={handleChange} />
-                        </label>
-                    </div>
                     <div className={styles.formGroup}>
                         <label>
                             Partner Share:
-                            <select name="partnerShare" value={searchData.partnerShare} onChange={handleChange}>
+                            <select name="partnerShare" value={searchData.partnerShare !== '' ? searchData.partnerShare : ''} onChange={handleChange}>
+                                <option value="">No preferences</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>

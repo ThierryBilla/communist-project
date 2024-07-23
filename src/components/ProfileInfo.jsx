@@ -68,6 +68,10 @@ const ProfileInfo = () => {
         fetchProfileData();
     }, [token]);
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         const newValue = type === 'checkbox' ? checked : type === 'range' ? parseInt(value) : value;
@@ -77,7 +81,12 @@ const ProfileInfo = () => {
             [name]: newValue
         };
 
-        // Ajouter une condition pour définir communismLevel sur "0" lorsque politicalBelief est "non communist"
+        // Capitalize first letter for specific fields
+        if (name === 'city' || name === 'language' || name === 'country') {
+            updatedData[name] = capitalizeFirstLetter(newValue);
+        }
+
+        // Set communismLevel to "0" when politicalBelief is "non communist"
         if (name === 'politicalBelief' && value === 'non communist') {
             updatedData = {
                 ...updatedData,
@@ -108,6 +117,11 @@ const ProfileInfo = () => {
         if (profileInfo.politicalBelief === 'non communist') {
             profileInfo.communismLevel = 0;
         }
+
+        // Capitalize first letter for specific fields before sending
+        profileInfo.city = capitalizeFirstLetter(profileInfo.city);
+        profileInfo.language = capitalizeFirstLetter(profileInfo.language);
+        profileInfo.country = capitalizeFirstLetter(profileInfo.country);
 
         console.log('Updating profile info with:', profileInfo); // Log the data being sent
         try {
@@ -265,11 +279,12 @@ const ProfileInfo = () => {
                             Political Belief:
                             <select name="politicalBelief" value={profileData.politicalBelief} onChange={handleChange}>
                                 <option value="" disabled>Select a belief</option>
-                                <option value="Non communist">Non communist</option>
+                                <option value="Non Communist">Non communist</option>
                                 <option value="Communist">Communist</option>
                                 <option value="Eurocommunist">Eurocommunist</option>
                                 <option value="Socialist">Socialist</option>
-                                <option value="Revolutionary syndicalist">Revolutionary Syndicalist</option>
+                                <option value="Revolutionary Syndicalist">Revolutionary Syndicalist</option>
+                                <option value="Mélanchonist">Mélanchonist</option>
                                 <option value="Anarchist">Anarchist</option>
                                 <option value="Marxist">Marxist</option>
                                 <option value="Leninist">Leninist</option>
