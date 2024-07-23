@@ -120,9 +120,7 @@ const UserProfile = ({ userId, onBack }) => {
                                             <div className={styles.blogTitle}>{blog.title}</div>
                                         </div>
                                         {expandedTopic === index && (
-                                            <div className={styles.blogContent}>
-                                                {blog.content}
-                                            </div>
+                                            <div className={styles.blogContent} dangerouslySetInnerHTML={{ __html: blog.content }}></div>
                                         )}
                                     </li>
                                 ))}

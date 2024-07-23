@@ -260,8 +260,7 @@ const SwiperCard = () => {
                                                     <div className={styles.blogTitle}>{topic.title}</div>
                                                 </div>
                                                 {expandedTopic === index && (
-                                                    <div className={styles.blogContent}>
-                                                        {topic.content}
+                                                    <div className={styles.blogContent} dangerouslySetInnerHTML={{ __html: topic.content }}>
                                                     </div>
                                                 )}
                                             </li>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from '../css/MyBlogs.module.css';
-import { FaEdit, FaTrashAlt, FaPlus, FaSave, FaTimes } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt, FaPlus, FaSave, FaTimes, FaBold, FaItalic, FaUnderline, FaTextHeight } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 
 const MyBlogs = () => {
@@ -10,6 +10,7 @@ const MyBlogs = () => {
   const [newBlog, setNewBlog] = useState({ title: '', content: '' });
   const [blogs, setBlogs] = useState([]);
   const [editBlog, setEditBlog] = useState(null);
+  const contentEditableRef = useRef(null);
 
   useEffect(() => {
     async function fetchBlogs() {
@@ -18,7 +19,7 @@ const MyBlogs = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // Inclure le token dans l'en-tête
+            'Authorization': `Bearer ${token}`,
           },
         });
 
@@ -27,8 +28,8 @@ const MyBlogs = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched blog posts data:', data); // Log the fetched data
-        setBlogs(data); // Mettre à jour l'état avec les données récupérées
+        console.log('Fetched blog posts data:', data);
+        setBlogs(data);
       } catch (error) {
         console.error('Failed to fetch blogs', error);
       }
@@ -80,7 +81,8 @@ const MyBlogs = () => {
   const handleNewBlogSubmit = async (e) => {
     e.preventDefault();
 
-    if (newBlog.title.length < 4 || newBlog.title.length > 255 || newBlog.content.length < 5 || newBlog.content.length > 1000) {
+    const content = contentEditableRef.current.innerHTML;
+    if (newBlog.title.length < 4 || newBlog.title.length > 255 || content.length < 5 || content.length > 1000) {
       alert("Title must be between 4 and 255 characters, and content must be between 5 and 1000 characters.");
       return;
     }
@@ -93,7 +95,7 @@ const MyBlogs = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(newBlog),
+          body: JSON.stringify({ ...newBlog, content }),
         });
 
         if (response.ok) {
@@ -101,6 +103,7 @@ const MyBlogs = () => {
           setBlogs([...blogs, createdBlog]);
           setNewBlog({ title: '', content: '' });
           setIsFormVisible(false);
+          contentEditableRef.current.innerHTML = ''; // Clear the editable content
         } else {
           console.error('Failed to create blog post');
         }
@@ -113,7 +116,8 @@ const MyBlogs = () => {
   const handleEditBlogSubmit = async (e) => {
     e.preventDefault();
 
-    if (editBlog.title.length < 4 || editBlog.title.length > 255 || editBlog.content.length < 5 || editBlog.content.length > 1000) {
+    const content = contentEditableRef.current.innerHTML;
+    if (editBlog.title.length < 4 || editBlog.title.length > 255 || content.length < 5 || content.length > 1000) {
       alert("Title must be between 4 and 255 characters, and content must be between 5 and 1000 characters.");
       return;
     }
@@ -126,7 +130,7 @@ const MyBlogs = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(editBlog),
+          body: JSON.stringify({ ...editBlog, content }),
         });
 
         if (response.ok) {
@@ -139,6 +143,24 @@ const MyBlogs = () => {
       } catch (error) {
         console.error('Error updating blog post:', error);
       }
+    }
+  };
+
+  const formatText = (command, value = null) => {
+    document.execCommand(command, false, value);
+  };
+
+  const toggleFontSize = () => {
+    const selection = document.getSelection();
+    if (!selection.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    const parentElement = range.commonAncestorContainer.parentElement;
+    const currentFontSize = window.getComputedStyle(parentElement).fontSize;
+
+    if (currentFontSize === '16px') {
+      formatText('fontSize', '4'); // Set to a larger size
+    } else {
+      formatText('fontSize', '3'); // Reset to normal size
     }
   };
 
@@ -167,13 +189,18 @@ const MyBlogs = () => {
                       className={styles.input}
                       required
                     />
-                    <textarea
-                      name="content"
-                      value={editBlog.content}
-                      onChange={handleEditBlogChange}
+                    <div className={styles.toolbar}>
+                      <button type="button" onClick={() => formatText('bold')}><FaBold className={styles.icon} /></button>
+                      <button type="button" onClick={() => formatText('italic')}><FaItalic className={styles.icon} /></button>
+                      <button type="button" onClick={() => formatText('underline')}><FaUnderline className={styles.icon} /></button>
+                      <button type="button" onClick={toggleFontSize}><FaTextHeight className={styles.icon} /></button>
+                    </div>
+                    <div
+                      ref={contentEditableRef}
+                      contentEditable
                       className={styles.textarea}
-                      required
-                    ></textarea>
+                      dangerouslySetInnerHTML={{ __html: editBlog.content }}
+                    />
                     <div className={styles.formActions}>
                       <button type="submit" className={`${styles.button} ${styles.submitButton}`}>
                         <FaSave />
@@ -184,7 +211,7 @@ const MyBlogs = () => {
                     </div>
                   </form>
                 ) : (
-                  <div>{blog.content}</div>
+                  <div dangerouslySetInnerHTML={{ __html: blog.content }} />
                 )}
               </div>
             )}
@@ -206,14 +233,18 @@ const MyBlogs = () => {
               className={styles.input}
               required
             />
-            <textarea
-              name="content"
-              placeholder="Content"
-              value={newBlog.content}
-              onChange={handleNewBlogChange}
+            <div className={styles.toolbar}>
+              <button type="button" onClick={() => formatText('bold')}><FaBold className={styles.icon} /></button>
+              <button type="button" onClick={() => formatText('italic')}><FaItalic className={styles.icon} /></button>
+              <button type="button" onClick={() => formatText('underline')}><FaUnderline className={styles.icon} /></button>
+              <button type="button" onClick={toggleFontSize}><FaTextHeight className={styles.icon} /></button>
+            </div>
+            <div
+              ref={contentEditableRef}
+              contentEditable
               className={styles.textarea}
-              required
-            ></textarea>
+              placeholder="Content"
+            />
             <div className={styles.formActions}>
               <button type="submit" className={`${styles.button} ${styles.submitButton}`}>Add</button>
               <button type="button" className={`${styles.button} ${styles.cancelButton}`} onClick={() => setIsFormVisible(false)}>Cancel</button>
