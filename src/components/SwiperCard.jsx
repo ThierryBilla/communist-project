@@ -214,7 +214,7 @@ const SwiperCard = () => {
 
     const renderStars = (level) => {
         if (level === 0) {
-            return <span className={styles.capitalist}>⚠️ capitalist</span>;
+            return <span className={styles.capitalist}>⚠️ Capitalist</span>;
         }
         return Array.from({ length: level }, (_, i) => <span key={i} className={styles.star}>⭐</span>);
     };
@@ -272,7 +272,12 @@ const SwiperCard = () => {
                     </div>
                 ))}
             </div>
-            <MatchModal isOpen={isMatchModalOpen} onClose={() => setIsMatchModalOpen(false)} matchedUser={matchedUser} />
+            <MatchModal 
+                isOpen={isMatchModalOpen} 
+                onClose={() => setIsMatchModalOpen(false)} 
+                matchedUser={matchedUser} 
+                fetchNextProfile={moveToNextProfile} // Pass the function to fetch next profile
+            />
         </div>
     );
 };

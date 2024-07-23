@@ -1,8 +1,13 @@
 import React from 'react';
 import styles from '../css/MatchModal.module.css';
 
-const MatchModal = ({ isOpen, onClose, matchedUser }) => {
+const MatchModal = ({ isOpen, onClose, matchedUser, fetchNextProfile }) => {
     if (!isOpen || !matchedUser) return null;
+
+    const handleClose = () => {
+        onClose();
+        fetchNextProfile();
+    };
 
     return (
         <div className={styles.modalOverlay}>
@@ -27,7 +32,7 @@ const MatchModal = ({ isOpen, onClose, matchedUser }) => {
                         />
                     </svg>
                 </div>
-                <button onClick={onClose} className={styles.closeButton}>Close</button>
+                <button onClick={handleClose} className={styles.closeButton}>Close</button>
             </div>
         </div>
     );

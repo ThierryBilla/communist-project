@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 const SearchPref = () => {
     const [searchData, setSearchData] = useState({
-        ageRange: [25, 35],
+        ageRange: [18, 99],
         gender: '',
         politicalBelief: '',
         partnerShare: ''
