@@ -90,7 +90,7 @@ const SearchPref = () => {
 
     return (
         <div className={styles.searchPrefContainer}>
-            <h1>Search preference to find the commie of my dreams #love</h1>
+            <h1>Search Preferences</h1>
             <form className={styles.searchForm} onSubmit={handleSubmit}>
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>

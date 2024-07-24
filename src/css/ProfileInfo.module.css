@@ -1,23 +1,18 @@
 .profileInfoContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
     width: 100%;
-    max-width: 1000px;
-    flex-direction: column;
+    padding: 20px;
+    margin: 0 auto;
 }
 
 .profileForm {
-    padding: 20px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .formRow {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 15px;
@@ -45,6 +40,7 @@
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .profileForm textarea {
@@ -132,8 +128,9 @@
 
 .buttonContainer {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
+    margin-top: 20px;
 }
 
 .profileForm button {
@@ -144,10 +141,15 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px;
     width: 200px;
+    margin-top: 20px; /* Assure que le bouton reste sous les inputs */
 }
 
 .profileForm button:hover {
     background-color: #a73b35;
+}
+
+h1 {
+    text-align: left;
+    margin-bottom: 20px;
 }
