@@ -18,7 +18,8 @@ const Signup = () => {
         communismLevel: '1', 
         politicalBelief: '',
         partnerShare: false,
-        gender: ''
+        gender: '',
+        showModal: false // Initial state for showModal
     });
 
     const [passwordError, setPasswordError] = useState(''); // State for password error
@@ -41,8 +42,7 @@ const Signup = () => {
 
         let updatedData = {
             ...formData,
-            [name]: newValue,
-            showModal: value === "non communist"
+            [name]: newValue
         };
 
         // Capitalize first letter for specific fields
@@ -50,11 +50,12 @@ const Signup = () => {
             updatedData[name] = capitalizeFirstLetter(newValue);
         }
 
-        // Set communismLevel to "0" when politicalBelief is "non communist"
-        if (name === "politicalBelief" && value === "non communist") {
+        // Set communismLevel to "0" and showModal to true when politicalBelief is "Non communist"
+        if (name === "politicalBelief" && value === "Non communist") {
             updatedData = {
                 ...updatedData,
-                communismLevel: "0"
+                communismLevel: "0",
+                showModal: true
             };
         }
 
@@ -115,7 +116,7 @@ const Signup = () => {
         });
     };
 
-    const shouldDisplaySlider = formData.politicalBelief !== "non communist" && formData.politicalBelief !== "";
+    const shouldDisplaySlider = formData.politicalBelief !== "Non communist" && formData.politicalBelief !== "";
 
     return (
         <div>
@@ -189,7 +190,7 @@ const Signup = () => {
                             Political Belief:
                             <select name="politicalBelief" value={formData.politicalBelief} onChange={handleChange}>
                                 <option value="" disabled>Select a belief</option>
-                                <option value="Non Communist">Non communist</option>
+                                <option value="Non communist">Non communist</option>
                                 <option value="Communist">Communist</option>
                                 <option value="Eurocommunist">Eurocommunist</option>
                                 <option value="Socialist">Socialist</option>
@@ -221,7 +222,7 @@ const Signup = () => {
                     <button type="submit">Sign Up</button>
                     <p className={styles.loginPrompt}>Do you have an account? <a href="/Signin">Login</a></p>
                 </form>
-                {formData.showModal && <Modal handleClose={handleCloseModal} message="Attention the big brother is watching you" />}
+                {formData.showModal && <Modal handleClose={handleCloseModal} />}
             </div>
         </div>
     );
