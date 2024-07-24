@@ -17,6 +17,7 @@ const SwiperCard = () => {
     const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
     const [matchedUser, setMatchedUser] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [isProfileLoading, setIsProfileLoading] = useState(false);
 
     useEffect(() => {
         fetchUserProfile();
@@ -70,6 +71,7 @@ const SwiperCard = () => {
     };
 
     const fetchRandomProfiles = async () => {
+        setIsProfileLoading(true);
         try {
             const response = await fetch('https://communistdate-0f582f5caf12.herokuapp.com/users/random', {
                 method: 'GET',
@@ -80,7 +82,7 @@ const SwiperCard = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                const blogs = await fetchUserBlogs(data.id); // Fetch blogs for the user
+                const blogs = await fetchUserBlogs(data.id);
 
                 const newProfile = {
                     id: data.id,
@@ -92,16 +94,17 @@ const SwiperCard = () => {
                     politicalBelief: data.politicalBelief,
                     communismLevel: data.communismLevel,
                     profilePicture: data.profilePicture || 'placeholder.jpg',
-                    topics: blogs, // Set the fetched blogs here
+                    topics: blogs,
                     liked: false
                 };
-                setProfiles(prevProfiles => [...prevProfiles, newProfile]);
+                setProfiles([newProfile]);  // Replace the profiles array with the new profile
             } else {
                 console.error('Failed to fetch profile');
             }
         } catch (error) {
             console.error('Error fetching profile:', error);
         }
+        setIsProfileLoading(false);
     };
 
     const sendLike = async (likedUser) => {
@@ -143,7 +146,7 @@ const SwiperCard = () => {
                     console.log('Matched profile:', matchedProfile);
                     if (matchedProfile) {
                         setMatchedUser(matchedProfile);
-                        console.log('Setting matched user:', matchedProfile.username); // Log supplémentaire
+                        console.log('Setting matched user:', matchedProfile.username);
                         setIsMatchModalOpen(true);
                     }
                 } else {
@@ -185,15 +188,20 @@ const SwiperCard = () => {
     };
 
     const moveToNextProfile = () => {
+        setIsProfileLoading(true); // Hide the card before updating the profile
         setShowPrivateMessages(false);
         setSelectedMessage(null);
-        setIndex(prevIndex => {
-            const newIndex = (prevIndex + 1) % profiles.length;
-            if (newIndex === profiles.length - 1) {
-                fetchRandomProfiles();
-            }
-            return newIndex;
-        });
+        setTimeout(async () => {
+            setIndex(prevIndex => {
+                const newIndex = (prevIndex + 1) % profiles.length;
+                if (newIndex === 0) {
+                    fetchRandomProfiles().then(() => setIsProfileLoading(false));
+                } else {
+                    setIsProfileLoading(false);
+                }
+                return newIndex;
+            });
+        }, 250); // Adjust the delay as needed
     };
 
     const togglePrivateMessages = (message = null) => {
@@ -230,7 +238,11 @@ const SwiperCard = () => {
                     <div
                         key={i}
                         className={`${styles.card} ${liked && i === index ? styles.liked : ''} ${disliked && i === index ? styles.disliked : ''}`}
-                        style={{ zIndex: profiles.length - i, opacity: i === index ? 1 : 0, pointerEvents: i === index ? 'auto' : 'none' }}
+                        style={{ 
+                            zIndex: profiles.length - i, 
+                            opacity: i === index && !isProfileLoading ? 1 : 0, 
+                            pointerEvents: i === index && !isProfileLoading ? 'auto' : 'none' 
+                        }}
                     >
                         <div className={styles.imageContainer}>
                             <img src={profile.profilePicture} alt={`${profile.name}'s profile`} className={styles.image} />
