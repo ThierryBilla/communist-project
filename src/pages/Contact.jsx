@@ -132,6 +132,8 @@ const Contact = () => {
                   <option value="communist">Communist</option>
                   <option value="eurocommunist">Eurocommunist</option>
                   <option value="socialist">Socialist</option>
+                  <option value="Mélanchonist">Mélanchonist</option>
+                  <option value="Pietronist">Pietronist</option>
                   <option value="revolutionary_syndicalist">Revolutionary Syndicalist</option>
                   <option value="anarchist">Anarchist</option>
                   <option value="marxist">Marxist</option>

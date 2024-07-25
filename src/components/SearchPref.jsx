@@ -140,6 +140,7 @@ const SearchPref = () => {
                                 <option value="Eurocommunist">Eurocommunist</option>
                                 <option value="Socialist">Socialist</option>
                                 <option value="Mélanchonist">Mélanchonist</option>
+                                <option value="Pietronist">Pietronist</option>
                                 <option value="Revolutionary Syndicalist">Revolutionary Syndicalist</option>
                                 <option value="Anarchist">Anarchist</option>
                                 <option value="Marxist">Marxist</option>

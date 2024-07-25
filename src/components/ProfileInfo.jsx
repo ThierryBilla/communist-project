@@ -285,6 +285,7 @@ const ProfileInfo = () => {
                                 <option value="Socialist">Socialist</option>
                                 <option value="Revolutionary Syndicalist">Revolutionary Syndicalist</option>
                                 <option value="Mélanchonist">Mélanchonist</option>
+                                <option value="Pietronist">Pietronist</option>
                                 <option value="Anarchist">Anarchist</option>
                                 <option value="Marxist">Marxist</option>
                                 <option value="Leninist">Leninist</option>
